@@ -30,7 +30,7 @@ public class MSCamera : MonoBehaviour
         gameMaster.Update();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         FollowPlayer();
     }
@@ -63,7 +63,7 @@ public class MSCamera : MonoBehaviour
 
             posv3.x = playerPos.x - deltaX;
             posv3.z = playerPos.y - deltaZ;
-            transform.rotation = Quaternion.Lerp(originR, Quaternion.LookRotation(pos3D - transform.position, Vector3.up), Time.deltaTime * 5);
+            transform.rotation = Quaternion.Lerp(originR, Quaternion.LookRotation(pos3D - transform.position, Vector3.up), Time.deltaTime * 20);
             // transform.LookAt(pos3D);
         }
         transform.position = Vector3.Lerp(transform.position, posv3, Time.deltaTime * 1000);
