@@ -9,11 +9,11 @@ public class SCLogin : MSMessageBase
 
     public override void write(OutputStream output)
     {
-        output.write<int>(id);
+        output.write<int>(playerId);
     }
 
     public override void read(InputStream input)
     {
-        id = input.read<int>();
+        playerId = input.read<int>();
     }
 }
