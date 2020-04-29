@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 public class BPlayer : MSMessageBase
 {
     public int playerId;
@@ -16,6 +17,7 @@ public class BPlayer : MSMessageBase
         output.write<string>(playerName);
         output.write<int>(side);
         output.write<BVector2>(initPos);
+
     }
 
     public override void read(InputStream input)
@@ -24,5 +26,6 @@ public class BPlayer : MSMessageBase
         playerName = input.read<string>();
         side = input.read<int>();
         initPos = input.read<BVector2>();
+
     }
 }

@@ -7,11 +7,7 @@ public abstract class MSMessageBase
 
     public static int GetMessageId(MSMessageBase msg)
     {
-        if (msg is CSLogin)
-        {
-            return 1001;
-        } 
-        else if (msg is BPlayer)
+        if  (msg is BPlayer)
         {
             return 101;
         }
@@ -23,10 +19,10 @@ public abstract class MSMessageBase
         {
             return 103;
         }
-        // else if (msg is BPlayer)
-        // {
-        //     return 1002;
-        // }
+        else if (msg is CSLogin)
+        {
+            return 1001;
+        }
         else if (msg is SCJoinGame)
         {
             return 1003;
@@ -35,6 +31,7 @@ public abstract class MSMessageBase
         {
             return 1004;
         }
+
         return 0;
     }
 
@@ -58,10 +55,6 @@ public abstract class MSMessageBase
             case 1001:
                 msg = new CSLogin();
                 break;
-                
-            case 1002:
-                // msg = new ();
-                break;
 
             case 1003:
                 msg = new SCJoinGame();
@@ -70,6 +63,7 @@ public abstract class MSMessageBase
             case 1004:
                 msg = new SCLogin();
                 break;
+
 
             default:
                 break;

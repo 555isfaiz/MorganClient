@@ -53,11 +53,12 @@ public class MsgHandler : SubModBase
     {
         MSCamera c = (MSCamera)(GetOwner().GetOwner());
         List<BPlayer> l = new List<BPlayer>();
+
         foreach (var m in msg.players)
         {
             l.Add((BPlayer)m);
         }
-        c.gameMaster.NewGame(msg.mySide, msg.sessionId, l);
+        c.gameMaster.NewGame(msg.myId, msg.sessionId, l);
     }
 
     void onSCLogin(SCLogin msg)

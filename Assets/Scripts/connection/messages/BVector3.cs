@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 public class BVector3 : MSMessageBase
 {
     public float x;
@@ -14,6 +15,7 @@ public class BVector3 : MSMessageBase
         output.write<float>(x);
         output.write<float>(y);
         output.write<float>(z);
+
     }
 
     public override void read(InputStream input)
@@ -21,5 +23,6 @@ public class BVector3 : MSMessageBase
         x = input.read<float>();
         y = input.read<float>();
         z = input.read<float>();
+
     }
 }

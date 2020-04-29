@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 public class SCLogin : MSMessageBase
 {
     public int playerId;
@@ -10,10 +11,12 @@ public class SCLogin : MSMessageBase
     public override void write(OutputStream output)
     {
         output.write<int>(playerId);
+
     }
 
     public override void read(InputStream input)
     {
         playerId = input.read<int>();
+
     }
 }

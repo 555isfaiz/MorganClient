@@ -20,7 +20,6 @@ public class MSCamera : MonoBehaviour
         gameMaster.Start();
         netWorker.Start();
         CSLogin msg = new CSLogin();
-        msg.playerName = "tplayer1";
         netWorker.Send(msg);
     }
 

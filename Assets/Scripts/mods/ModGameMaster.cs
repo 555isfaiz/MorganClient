@@ -43,11 +43,12 @@ public class ModGameMaster : ModBase
                 teamMateId = p.playerId;
             }
             var tmp = GameObject.Instantiate(go);
-            tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.z);
+            tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
             this.otherPlayer.Add(p.playerId, tmp);
         }
         mainPlayer.transform.position = new Vector3(6, 5f, -6);
         switchLock();
+        Debug.Log("game inited!!");
     }
 
     public void switchLock()
