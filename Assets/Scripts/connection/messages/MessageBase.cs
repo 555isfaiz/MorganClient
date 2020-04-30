@@ -7,17 +7,17 @@ public abstract class MSMessageBase
 
     public static int GetMessageId(MSMessageBase msg)
     {
-        if  (msg is BPlayer)
-        {
-            return 101;
-        }
-        else if (msg is BVector2)
+        if  (msg is BVector2)
         {
             return 102;
         }
         else if (msg is BVector3)
         {
             return 103;
+        }
+        else if (msg is BPlayer)
+        {
+            return 101;
         }
         else if (msg is CSLogin)
         {
@@ -40,16 +40,16 @@ public abstract class MSMessageBase
         MSMessageBase msg = null;
         switch (id)
         {
-            case 101:
-                msg = new BPlayer();
-                break;
-
             case 102:
                 msg = new BVector2();
                 break;
 
             case 103:
                 msg = new BVector3();
+                break;
+
+            case 101:
+                msg = new BPlayer();
                 break;
 
             case 1001:
