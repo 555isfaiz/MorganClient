@@ -32,21 +32,28 @@ public class ModGameMaster : ModBase
         this.id = id;
     }
 
-    public void NewGame(int myside, int lastGameSession, List<BPlayer> otherPlayers)
+    public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
     {
         this.lastGameSession = lastGameSession;
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
-        foreach (var p in otherPlayers)
+        foreach (var p in players)
         {
-            if (p.side == myside)
+            if (p.side == myside && p.playerId != id)
             {
                 teamMateId = p.playerId;
             }
-            var tmp = GameObject.Instantiate(go);
-            tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
-            this.otherPlayer.Add(p.playerId, tmp);
+
+            if (p.playerId == id)
+            {
+                mainPlayer.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
+            }
+            else
+            {
+                var tmp = GameObject.Instantiate(go);
+                tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
+                this.otherPlayer.Add(p.playerId, tmp);
+            }
         }
-        mainPlayer.transform.position = new Vector3(6, 5f, -6);
         switchLock();
         Debug.Log("game inited!!");
     }
