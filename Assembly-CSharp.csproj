@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\ModBase.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameMaster.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameObject.cs" />
+     <Compile Include="Assets\Scripts\mods\ModUIs.cs" />
      <Compile Include="Assets\Scripts\MSCamera.cs" />
      <Compile Include="Assets\Scripts\MSHero.cs" />
      <Compile Include="Assets\Scripts\MSOtherPlayer.cs" />

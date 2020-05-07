@@ -26,15 +26,15 @@ public class MSNetWorker : ModBase
         s.Connect(new IPEndPoint(ip, 13139));
         start = true;
         MsgHandler msgHandler = new MsgHandler(this);
-        AddSubMod(msgHandler);
+        AddSubMod("MsgHandler", msgHandler);
         worker.Start();
     }
 
     public override void Update()
     {
-        foreach (var m in subMods)
+        foreach (var pair in subMods)
         {
-            m.Update();
+            pair.Value.Update();
         }
     }
 

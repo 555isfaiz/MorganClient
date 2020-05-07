@@ -18,9 +18,13 @@ public class MSHero : MonoBehaviour
     Vector3 back;
     Vector3 left;
     Vector3 right;
+    public ModGameObject modGameObj { get; set; }
+    public int id { get; set; }
+    public string playerName { get; set; }
 
     void Start()
     {
+        modGameObj = new ModGameObject(this);
         go = GameObject.Find("Player");
         rb = go.GetComponent<Rigidbody>();
         jumpStartTime = 0.0f;

@@ -3,19 +3,27 @@ using UnityEngine;
 
 public class ModGameMaster : ModBase
 {
-    int id;
-    int teamMateId;
+    public int mainPlayerId;
+    public int teamMateId;
     int lastGameSession;
     int currentLock;
     GameObject mainPlayer;
     Dictionary<int, GameObject> otherPlayer = new Dictionary<int, GameObject>();
-
+    MSHero msHero;
+    Dictionary<int, MSOtherPlayer> msOther = new Dictionary<int, MSOtherPlayer>();
+    
     public ModGameMaster(MonoBehaviour owner, GameObject mainPlayer) : base(owner)
     {
         this.mainPlayer = mainPlayer;
+        msHero = mainPlayer.GetComponent<MSHero>();
     }
 
-    public override void StartOverride(){}
+    public override void StartOverride()
+    {
+        GameObject canvas = GameObject.Find("Canvas");
+        var modUI = new ModUIs(this, canvas);
+        subMods.Add("ModUIs", modUI);
+    }
 
     public override void UpdateOverride()
     {
@@ -29,7 +37,7 @@ public class ModGameMaster : ModBase
 
     public void SetMyId(int id)
     {
-        this.id = id;
+        mainPlayerId = id;
     }
 
     public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
@@ -38,23 +46,32 @@ public class ModGameMaster : ModBase
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
         foreach (var p in players)
         {
-            if (p.side == myside && p.playerId != id)
+            if (p.side == myside && p.playerId != mainPlayerId)
             {
                 teamMateId = p.playerId;
             }
 
-            if (p.playerId == id)
+            if (p.playerId == mainPlayerId)
             {
                 mainPlayer.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
+                msHero.id = mainPlayerId;
+                msHero.playerName = p.playerName;
             }
             else
             {
                 var tmp = GameObject.Instantiate(go);
                 tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
                 this.otherPlayer.Add(p.playerId, tmp);
+                var msother = tmp.GetComponent<MSOtherPlayer>();
+                msother.playerId = p.playerId;
+                msother.playerName = p.playerName;
+                this.msOther.Add(p.playerId, msother);
             }
         }
         switchLock();
+        SubModBase modUI;
+        subMods.TryGetValue("ModUIs", out modUI);
+        ((ModUIs)modUI).OnJoinedGame();
         Debug.Log("game inited!!");
     }
 
@@ -114,5 +131,43 @@ public class ModGameMaster : ModBase
         }
 
         return tmp;
+    }
+
+    public GameObject GetPlayer(int id)
+    {
+        if (id == mainPlayerId)
+        {
+            return mainPlayer;
+        }
+        else
+        {
+            GameObject ret;
+            otherPlayer.TryGetValue(id, out ret);
+            return ret;
+        }
+    }
+
+    public Dictionary<int, GameObject> GetAllPlayerObjects()
+    {
+        Dictionary<int, GameObject> all = new Dictionary<int, GameObject>();
+        foreach (var p in otherPlayer)
+        {
+            all.Add(p.Key, p.Value);
+        }
+
+        all.Add(mainPlayerId, mainPlayer);
+        return all;
+    }
+
+    public Dictionary<int, MonoBehaviour> GetAllPlayer()
+    {
+        Dictionary<int, MonoBehaviour> all = new Dictionary<int, MonoBehaviour>();
+        foreach (var p in msOther)
+        {
+            all.Add(p.Key, p.Value);
+        }
+
+        all.Add(mainPlayerId, msHero);
+        return all;
     }
 }

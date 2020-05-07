@@ -5,7 +5,7 @@ public abstract class ModBase
 {
     MonoBehaviour owner;
 
-    protected List<SubModBase> subMods = new List<SubModBase>();
+    protected Dictionary<string, SubModBase> subMods = new Dictionary<string, SubModBase>();
 
     public ModBase(MonoBehaviour owner)
     {
@@ -14,36 +14,36 @@ public abstract class ModBase
 
     public void Start()
     {
-        foreach (var m in subMods)
-        {
-            m.Start();
-        }
-
         StartOverride();
+
+        foreach (var p in subMods)
+        {
+            p.Value.Start();
+        }
     }
 
     public abstract void StartOverride();
 
     public virtual void Update()
     {
-        foreach (var m in subMods)
-        {
-            m.Update();
-        }
-
         UpdateOverride();
+
+        foreach (var p in subMods)
+        {
+            p.Value.Update();
+        }
     }
 
     public abstract void UpdateOverride();
 
     public void Stop()
     {
-        foreach (var m in subMods)
-        {
-            m.Stop();
-        }
-
         StopOverride();
+
+        foreach (var p in subMods)
+        {
+            p.Value.Stop();
+        }
     }
 
     public abstract void StopOverride();
@@ -53,13 +53,13 @@ public abstract class ModBase
         return owner;
     }
 
-    public void AddSubMod(SubModBase m)
+    public void AddSubMod(string name, SubModBase m)
     {
         if (m == null)
         {
             return;
         }
 
-        subMods.Add(m);
+        subMods.Add(name, m);
     }
 }
