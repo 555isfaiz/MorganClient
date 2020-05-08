@@ -25,7 +25,7 @@ public class ModUIs : SubModBase
     {
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();
         GameObject dogTag =  Resources.Load("DogTag") as GameObject;
-        int id = ((ModGameMaster)GetOwner()).mainPlayerId;
+        int id = MSShare.mainPlayerId;
         int teamMate = ((ModGameMaster)GetOwner()).teamMateId;
         foreach (var pair in players)
         {

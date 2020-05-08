@@ -38,11 +38,13 @@ public class ModGameMaster : ModBase
     public void SetMyId(int id)
     {
         mainPlayerId = id;
+        MSShare.mainPlayerId = id;
     }
 
     public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
     {
         this.lastGameSession = lastGameSession;
+        MSShare.currentSessionId = lastGameSession;
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
         foreach (var p in players)
         {

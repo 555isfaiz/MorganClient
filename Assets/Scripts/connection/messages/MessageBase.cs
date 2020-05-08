@@ -31,6 +31,14 @@ public abstract class MSMessageBase
         {
             return 1004;
         }
+        else if (msg is CSMove)
+        {
+            return 2001;
+        }
+        else if (msg is SCMove)
+        {
+            return 2002;
+        }
 
         return 0;
     }
@@ -62,6 +70,14 @@ public abstract class MSMessageBase
 
             case 1004:
                 msg = new SCLogin();
+                break;
+
+            case 2001:
+                msg = new CSMove();
+                break;
+
+            case 2002:
+                msg = new SCMove();
                 break;
 
 

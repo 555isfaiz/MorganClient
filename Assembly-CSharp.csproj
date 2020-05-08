@@ -49,10 +49,12 @@
      <Compile Include="Assets\Scripts\connection\messages\BVector2.cs" />
      <Compile Include="Assets\Scripts\connection\messages\BVector3.cs" />
      <Compile Include="Assets\Scripts\connection\messages\CSLogin.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\CSMove.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MessageBase.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MsgHandler.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCJoinGame.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCLogin.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\SCMove.cs" />
      <Compile Include="Assets\Scripts\connection\NetWorker.cs" />
      <Compile Include="Assets\Scripts\connection\streams\InputStream.cs" />
      <Compile Include="Assets\Scripts\connection\streams\OutputStream.cs" />
@@ -60,10 +62,12 @@
      <Compile Include="Assets\Scripts\ModBase.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameMaster.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameObject.cs" />
+     <Compile Include="Assets\Scripts\mods\ModMotion.cs" />
      <Compile Include="Assets\Scripts\mods\ModUIs.cs" />
      <Compile Include="Assets\Scripts\MSCamera.cs" />
      <Compile Include="Assets\Scripts\MSHero.cs" />
      <Compile Include="Assets\Scripts\MSOtherPlayer.cs" />
+     <Compile Include="Assets\Scripts\MSShare.cs" />
      <Compile Include="Assets\Scripts\SubModBase.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
  <Reference Include="Unity.Timeline.Editor">

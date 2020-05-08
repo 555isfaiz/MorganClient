@@ -20,14 +20,15 @@ public class MSNetWorker : ModBase
 
     public override void StartOverride()
     {
-        ts = new ThreadStart(UpdateOverride);
-        worker = new Thread(ts);
         IPAddress ip = IPAddress.Parse("127.0.0.1");
         s.Connect(new IPEndPoint(ip, 13139));
+        ts = new ThreadStart(UpdateOverride);
+        worker = new Thread(ts);
         start = true;
         MsgHandler msgHandler = new MsgHandler(this);
         AddSubMod("MsgHandler", msgHandler);
         worker.Start();
+        MSShare.func_SendMsg = Send;
     }
 
     public override void Update()
