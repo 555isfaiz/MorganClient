@@ -69,4 +69,11 @@ public class Utils
         float l = Mathf.Sqrt(Mathf.Pow(v.x, 2) + Mathf.Pow(v.y, 2) + Mathf.Pow(v.z, 2));
         return new Vector3(v.x / l, v.y / l, v.z / l);
     }
+
+    public static long GetTimeMilli()
+    {
+        long currentTicks = DateTime.Now.Ticks;
+        DateTime dtFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        return (currentTicks - dtFrom.Ticks) / 10000;
+    }
 }

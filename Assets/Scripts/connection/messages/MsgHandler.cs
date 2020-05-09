@@ -36,11 +36,15 @@ public class MsgHandler : SubModBase
         switch (id)
         {
             case 1003:
-                onSCJoinGame((SCJoinGame)msg);
+                OnSCJoinGame((SCJoinGame)msg);
                 break;
 
             case 1004:
-                onSCLogin((SCLogin)msg);
+                OnSCLogin((SCLogin)msg);
+                break;
+
+            case 2002:
+                OnSCMove(msg as SCMove);
                 break;
 
             default:
@@ -49,7 +53,7 @@ public class MsgHandler : SubModBase
         }
     }
 
-    void onSCJoinGame(SCJoinGame msg)
+    void OnSCJoinGame(SCJoinGame msg)
     {
         MSCamera c = (MSCamera)(GetOwner().GetOwner());
         List<BPlayer> l = new List<BPlayer>();
@@ -61,9 +65,14 @@ public class MsgHandler : SubModBase
         c.gameMaster.NewGame(msg.mySide, msg.sessionId, l);
     }
 
-    void onSCLogin(SCLogin msg)
+    void OnSCLogin(SCLogin msg)
     {
         MSCamera c = (MSCamera)(GetOwner().GetOwner());
         c.gameMaster.SetMyId(msg.playerId);
+    }
+
+    void OnSCMove(SCMove msg)
+    {
+        Debug.Log("scmove get!");
     }
 }
