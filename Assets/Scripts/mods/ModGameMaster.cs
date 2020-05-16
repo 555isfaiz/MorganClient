@@ -149,6 +149,20 @@ public class ModGameMaster : ModBase
         }
     }
 
+    public MonoBehaviour GetPlayerObject(int id)
+    {
+        if (id == mainPlayerId)
+        {
+            return msHero;
+        }
+        else
+        {
+            MSOtherPlayer ret;
+            msOther.TryGetValue(id, out ret);
+            return ret;
+        }
+    }
+
     public Dictionary<int, GameObject> GetAllPlayerObjects()
     {
         Dictionary<int, GameObject> all = new Dictionary<int, GameObject>();

@@ -72,38 +72,47 @@ public class ModMotion : ModBase
 
     void UpdatePosition()
     {
+        var direction = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
         {
-            go.transform.Translate(forward*moveSpeed*Time.deltaTime);
-            MSShare.func_SendMsg(GetCSMove(forward));
+            direction += forward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            go.transform.Translate(back * moveSpeed * Time.deltaTime);
-            MSShare.func_SendMsg(GetCSMove(back));
+            direction += back;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            go.transform.Translate(left * moveSpeed * Time.deltaTime);
-            MSShare.func_SendMsg(GetCSMove(left));
+            direction += left;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            go.transform.Translate(right * moveSpeed * Time.deltaTime);
-            MSShare.func_SendMsg(GetCSMove(right));
+            direction += right;
         }
+
+        if (direction.x != 0.0f || direction.y != 0.0f || direction.z != 0.0f)
+        {
+            go.transform.Translate(direction * moveSpeed * Time.deltaTime);
+            MSShare.func_SendMsg(GetCSMove(direction));
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if ((jumpPhase < 2) && (nextJumpable < Time.time))
-            {
-                jumpPhase = jumpPhase + 1;
-                jumpStartTime = Time.time;
-                var pv = new Vector3(0.0f, premitiveV, 0.0f);
-                rb.velocity = pv;
-            }
+            StartJump();
         }
     }
     
+    void StartJump()
+    {
+        if ((jumpPhase < 2) && (nextJumpable < Time.time))
+        {
+            jumpPhase = jumpPhase + 1;
+            jumpStartTime = Time.time;
+            var pv = new Vector3(0.0f, premitiveV, 0.0f);
+            rb.velocity = pv;
+        }
+    }
+
     void DoJump()
     {
         if (jumpPhase == 0)
@@ -136,5 +145,25 @@ public class ModMotion : ModBase
         msg.direction.z = direction.z;
         msg.timeStamp = Utils.GetTimeMilli();
         return msg;
+    }
+
+    public void OnSCMove(Vector3 pos, Vector3 direction)
+    {
+        if (!controlable)
+        {
+            go.transform.position = pos;
+            Quaternion newRotation = Quaternion.LookRotation(direction);
+            go.transform.rotation = newRotation;
+        }
+        else if (Vector3.Distance(pos, go.transform.position) > 1)
+        {
+            go.transform.position = pos;
+        }
+        Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
+    }
+
+    public void OnSCJump()
+    {
+        StartJump();
     }
 }

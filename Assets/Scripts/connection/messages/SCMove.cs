@@ -5,6 +5,7 @@ public class SCMove : MSMessageBase
     public BVector3 curPos;
     public BVector3 direction;
     public long timeStamp;
+    public int result;
 
     public SCMove()
     {
@@ -17,6 +18,7 @@ public class SCMove : MSMessageBase
         output.write<BVector3>(curPos);
         output.write<BVector3>(direction);
         output.write<long>(timeStamp);
+        output.write<int>(result);
 
     }
 
@@ -26,6 +28,7 @@ public class SCMove : MSMessageBase
         curPos = input.read<BVector3>();
         direction = input.read<BVector3>();
         timeStamp = input.read<long>();
+        result = input.read<int>();
 
     }
 }

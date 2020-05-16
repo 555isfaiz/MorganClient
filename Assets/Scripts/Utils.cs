@@ -73,7 +73,7 @@ public class Utils
     public static long GetTimeMilli()
     {
         long currentTicks = DateTime.Now.Ticks;
-        DateTime dtFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        DateTime dtFrom = new DateTime(1970, 1, 1, 8, 0, 0, 0);
         return (currentTicks - dtFrom.Ticks) / 10000;
     }
 }
