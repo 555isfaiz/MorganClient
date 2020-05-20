@@ -22,4 +22,9 @@ public class MSOtherPlayer : MonoBehaviour
         modGameObj.Update();
         modMotion.Update();
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        modMotion.OnCollisionEnter(collision);
+    }
 }

@@ -39,6 +39,14 @@ public abstract class MSMessageBase
         {
             return 2002;
         }
+        else if (msg is CSJump)
+        {
+            return 2003;
+        }
+        else if (msg is SCJump)
+        {
+            return 2004;
+        }
 
         return 0;
     }
@@ -78,6 +86,14 @@ public abstract class MSMessageBase
 
             case 2002:
                 msg = new SCMove();
+                break;
+
+            case 2003:
+                msg = new CSJump();
+                break;
+
+            case 2004:
+                msg = new SCJump();
                 break;
 
 

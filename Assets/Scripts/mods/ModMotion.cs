@@ -44,8 +44,8 @@ public class ModMotion : ModBase
         {
             UpdateDirection();
             UpdatePosition();
-            DoJump();
         }
+        DoJump();
     }
 
     public override void StopOverride() {}
@@ -98,6 +98,9 @@ public class ModMotion : ModBase
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            CSJump csjump = new CSJump();
+            csjump.playerId = MSShare.mainPlayerId;
+            MSShare.func_SendMsg(csjump);
             StartJump();
         }
     }
@@ -151,7 +154,8 @@ public class ModMotion : ModBase
     {
         if (!controlable)
         {
-            go.transform.position = pos;
+            Vector3 y = new Vector3(pos.x, /* jumpPhase == 0 ? pos.y :  */go.transform.position.y, pos.z);
+            go.transform.position = y;
             Quaternion newRotation = Quaternion.LookRotation(direction);
             go.transform.rotation = newRotation;
         }

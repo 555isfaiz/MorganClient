@@ -47,6 +47,10 @@ public class MsgHandler : SubModBase
                 OnSCMove(msg as SCMove);
                 break;
 
+            case 2004:
+                OnSCJump(msg as SCJump);
+                break;
+
             default:
                 Debug.LogError("can't handle this message, msgId:" + id);
                 break;
@@ -85,5 +89,12 @@ public class MsgHandler : SubModBase
         {
             (other as MSOtherPlayer).modMotion.OnSCMove(pos, dir);
         }
+    }
+
+    void OnSCJump(SCJump msg)
+    {
+        var gm = (GetOwner().GetOwner() as MSCamera).gameMaster;
+        var other = gm.GetPlayerObject(msg.playerId);
+        (other as MSOtherPlayer).modMotion.OnSCJump();
     }
 }
