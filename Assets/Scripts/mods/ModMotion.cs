@@ -154,7 +154,7 @@ public class ModMotion : ModBase
     {
         if (!controlable)
         {
-            Vector3 y = new Vector3(pos.x, /* jumpPhase == 0 ? pos.y :  */go.transform.position.y, pos.z);
+            Vector3 y = new Vector3(pos.x, jumpPhase == 0 ? pos.y : go.transform.position.y, pos.z);
             go.transform.position = y;
             Quaternion newRotation = Quaternion.LookRotation(direction);
             go.transform.rotation = newRotation;
@@ -163,7 +163,7 @@ public class ModMotion : ModBase
         {
             go.transform.position = pos;
         }
-        Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
+        // Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
     }
 
     public void OnSCJump()
