@@ -60,6 +60,16 @@ public class ModMotion : ModBase
         }
     }
 
+    public void OnCollisionExit(Collision collision)
+    {
+
+    }
+
+    public void OnCollisionStay(Collision collision)
+    {
+
+    }
+
     void UpdateDirection()
     {
         GameObject camera = GameObject.FindWithTag("MainCamera");

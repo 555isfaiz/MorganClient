@@ -27,4 +27,14 @@ public class MSOtherPlayer : MonoBehaviour
     {
         modMotion.OnCollisionEnter(collision);
     }
+
+    void OnCollisionExit(Collision collision)
+    {
+        modMotion.OnCollisionExit(collision);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        modMotion.OnCollisionStay(collision);
+    }
 }
