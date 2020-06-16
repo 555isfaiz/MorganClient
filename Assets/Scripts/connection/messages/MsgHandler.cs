@@ -30,6 +30,11 @@ public class MsgHandler : SubModBase
 
     public override void Stop(){}
 
+    ModGameMaster GameMaster()
+    {
+        return (GetOwner().GetOwner() as MSCamera).gameMaster;
+    }
+
     void handle(MSMessageBase msg)
     {
         int id = MSMessageBase.GetMessageId(msg);
@@ -41,6 +46,10 @@ public class MsgHandler : SubModBase
 
             case 1004:
                 OnSCLogin((SCLogin)msg);
+                break;
+
+            case 1005:
+                OnSCGameSync(msg as SCGameSync);
                 break;
 
             case 2002:
@@ -59,42 +68,51 @@ public class MsgHandler : SubModBase
 
     void OnSCJoinGame(SCJoinGame msg)
     {
-        MSCamera c = (MSCamera)(GetOwner().GetOwner());
         List<BPlayer> l = new List<BPlayer>();
 
         foreach (var m in msg.players)
         {
             l.Add((BPlayer)m);
         }
-        c.gameMaster.NewGame(msg.mySide, msg.sessionId, l);
+        GameMaster().NewGame(msg.mySide, msg.sessionId, l);
     }
 
     void OnSCLogin(SCLogin msg)
     {
-        MSCamera c = (MSCamera)(GetOwner().GetOwner());
-        c.gameMaster.SetMyId(msg.playerId);
+        GameMaster().SetMyId(msg.playerId);
     }
 
     void OnSCMove(SCMove msg)
     {
-        var gm = (GetOwner().GetOwner() as MSCamera).gameMaster;
+        var gm = GameMaster();
         var other = gm.GetPlayerObject(msg.playerId);
         Vector3 pos = new Vector3(msg.curPos.x, msg.curPos.y, msg.curPos.z);
         Vector3 dir = new Vector3(msg.direction.x, msg.direction.y, msg.direction.z);
         if (msg.playerId == MSShare.mainPlayerId)
         {
-            (other as MSHero).modMotion.OnSCMove(pos, dir);
+            (other as MSHero).modMotion.OnSCMove(pos, dir, msg.result);
         }
         else
         {
-            (other as MSOtherPlayer).modMotion.OnSCMove(pos, dir);
+            (other as MSOtherPlayer).modMotion.OnSCMove(pos, dir, msg.result);
         }
     }
 
     void OnSCJump(SCJump msg)
     {
-        var gm = (GetOwner().GetOwner() as MSCamera).gameMaster;
+        var gm = GameMaster();
         var other = gm.GetPlayerObject(msg.playerId);
         (other as MSOtherPlayer).modMotion.OnSCJump();
+    }
+
+    void OnSCGameSync(SCGameSync msg)
+    {
+        List<BPlayer> l = new List<BPlayer>();
+
+        foreach (var m in msg.players)
+        {
+            l.Add((BPlayer)m);
+        }
+        GameMaster().SessionSync(msg.sessionId, l);
     }
 }

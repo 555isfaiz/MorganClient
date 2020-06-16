@@ -31,6 +31,10 @@ public abstract class MSMessageBase
         {
             return 1004;
         }
+        else if (msg is SCGameSync)
+        {
+            return 1005;
+        }
         else if (msg is CSMove)
         {
             return 2001;
@@ -78,6 +82,10 @@ public abstract class MSMessageBase
 
             case 1004:
                 msg = new SCLogin();
+                break;
+
+            case 1005:
+                msg = new SCGameSync();
                 break;
 
             case 2001:

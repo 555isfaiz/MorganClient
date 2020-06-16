@@ -17,6 +17,7 @@ public class ModMotion : ModBase
     Vector3 left;
     Vector3 right;
     bool controlable;
+    int lastErrorCode = 0;
 
     public ModMotion(MonoBehaviour owner, GameObject go) : base(owner)
     {
@@ -102,7 +103,10 @@ public class ModMotion : ModBase
 
         if (direction.x != 0.0f || direction.y != 0.0f || direction.z != 0.0f)
         {
-            go.transform.Translate(direction * moveSpeed * Time.deltaTime);
+            if (lastErrorCode != -1)
+            {
+                go.transform.Translate(direction * moveSpeed * Time.deltaTime);
+            }
             MSShare.func_SendMsg(GetCSMove(direction));
         }
 
@@ -160,7 +164,7 @@ public class ModMotion : ModBase
         return msg;
     }
 
-    public void OnSCMove(Vector3 pos, Vector3 direction)
+    public void OnSCMove(Vector3 pos, Vector3 direction, int errorCode)
     {
         if (!controlable)
         {
@@ -169,11 +173,17 @@ public class ModMotion : ModBase
             Quaternion newRotation = Quaternion.LookRotation(direction);
             go.transform.rotation = newRotation;
         }
-        else if (Vector3.Distance(pos, go.transform.position) > 1)
+        else
         {
-            go.transform.position = pos;
+            if (Vector3.Distance(pos, go.transform.position) > 1/* || errorCode != 0*/)
+                go.transform.position = pos;
+            lastErrorCode = errorCode;
+            // if (lastErrorCode != 0)
+            // {
+            //     Debug.Log("lastErrorCode:" + lastErrorCode);
+            // }
         }
-        // Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
+        Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
     }
 
     public void OnSCJump()

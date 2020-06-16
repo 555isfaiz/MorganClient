@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\connection\messages\CSMove.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MessageBase.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MsgHandler.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\SCGameSync.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCJoinGame.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCJump.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCLogin.cs" />

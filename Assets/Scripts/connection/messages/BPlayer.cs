@@ -4,7 +4,7 @@ public class BPlayer : MSMessageBase
     public int playerId;
     public string playerName;
     public int side;
-    public BVector2 initPos;
+    public BVector3 curPos;
 
     public BPlayer()
     {
@@ -16,7 +16,7 @@ public class BPlayer : MSMessageBase
         output.write<int>(playerId);
         output.write<string>(playerName);
         output.write<int>(side);
-        output.write<BVector2>(initPos);
+        output.write<BVector3>(curPos);
 
     }
 
@@ -25,7 +25,7 @@ public class BPlayer : MSMessageBase
         playerId = input.read<int>();
         playerName = input.read<string>();
         side = input.read<int>();
-        initPos = input.read<BVector2>();
+        curPos = input.read<BVector3>();
 
     }
 }

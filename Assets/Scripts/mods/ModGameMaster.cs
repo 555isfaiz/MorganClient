@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ModGameMaster : ModBase
 {
@@ -31,6 +32,11 @@ public class ModGameMaster : ModBase
         {
             switchLock();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public override void StopOverride(){}
@@ -55,14 +61,14 @@ public class ModGameMaster : ModBase
 
             if (p.playerId == mainPlayerId)
             {
-                mainPlayer.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
+                mainPlayer.transform.position = new Vector3(p.curPos.x, 5f, p.curPos.z);
                 msHero.id = mainPlayerId;
                 msHero.playerName = p.playerName;
             }
             else
             {
                 var tmp = GameObject.Instantiate(go);
-                tmp.transform.position = new Vector3(p.initPos.x, 5f, p.initPos.y);
+                tmp.transform.position = new Vector3(p.curPos.x, 5f, p.curPos.z);
                 this.otherPlayer.Add(p.playerId, tmp);
                 var msother = tmp.GetComponent<MSOtherPlayer>();
                 msother.playerId = p.playerId;
@@ -75,6 +81,27 @@ public class ModGameMaster : ModBase
         subMods.TryGetValue("ModUIs", out modUI);
         ((ModUIs)modUI).OnJoinedGame();
         Debug.Log("game inited!!");
+    }
+
+    public void SessionSync(int sessionId, List<BPlayer> players)
+    {
+        if (sessionId != MSShare.currentSessionId)
+        {
+            Debug.LogError("incorrect sessionId, received:" + sessionId + ", currentId:" + MSShare.currentSessionId);
+            return;
+        }
+
+        foreach (var p in players)
+        {
+            var go = GetPlayer(p.playerId);
+            Vector3 pos = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
+            if (p.playerId != mainPlayerId && Vector3.Distance(pos, go.transform.position) > 0)
+            {
+                go.transform.position = pos;
+            }
+
+            // ...
+        }
     }
 
     public void switchLock()
