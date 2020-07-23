@@ -38,7 +38,6 @@ public class ModControl : ModBase
         if (Input.GetKeyDown(KeyCode.W))
         {
             MoveCommand(Command.MOVE_FORWARD);
-            Debug.Log("key down WWWWWWWWWWWWWWWWW");
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
@@ -50,7 +49,6 @@ public class ModControl : ModBase
         if (Input.GetKeyDown(KeyCode.S))
         {
             MoveCommand(Command.MOVE_BACKWARD);
-            Debug.Log("key down SSSSSSSSSSSSSSSSS");
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
@@ -62,7 +60,6 @@ public class ModControl : ModBase
         if (Input.GetKeyDown(KeyCode.A))
         {
             MoveCommand(Command.MOVE_LEFT);
-            Debug.Log("key down AAAAAAAAAAAAAAAAAAAAA");
         }
         if (Input.GetKeyUp(KeyCode.A))
         {
@@ -74,7 +71,6 @@ public class ModControl : ModBase
         if (Input.GetKeyDown(KeyCode.D))
         {
             MoveCommand(Command.MOVE_RIGHT);
-            Debug.Log("key down DDDDDDDDDDDDDDDDDDDD");
         }
         if (Input.GetKeyUp(KeyCode.D))
         {

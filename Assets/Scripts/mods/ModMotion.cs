@@ -207,7 +207,7 @@ public class ModMotion : ModBase
 
         go.transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
         long now = Utils.GetTimeMilli();
-        Debug.Log("dashing dir.x:" + dashDirection.x + ", dir.y:" + dashDirection.y + ", dir.z:" + dashDirection.z + "!!!!!!!!!!!!!!!!!!");
+        // Debug.Log("dashing dir.x:" + dashDirection.x + ", dir.y:" + dashDirection.y + ", dir.z:" + dashDirection.z + "!!!!!!!!!!!!!!!!!!");
         if (now >= dashEnd)
         {
             dashEnd = 0L;
@@ -215,7 +215,7 @@ public class ModMotion : ModBase
             dashDirection.x = 0;
             dashDirection.y = 0;
             dashDirection.z = 0;
-            Debug.Log("dash end~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            // Debug.Log("dash end~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
     }
 
