@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\connection\streams\OutputStream.cs" />
      <Compile Include="Assets\Scripts\connection\streams\StreamBase.cs" />
      <Compile Include="Assets\Scripts\ModBase.cs" />
+     <Compile Include="Assets\Scripts\mods\ModControl.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameMaster.cs" />
      <Compile Include="Assets\Scripts\mods\ModGameObject.cs" />
      <Compile Include="Assets\Scripts\mods\ModMotion.cs" />
@@ -71,6 +72,7 @@
      <Compile Include="Assets\Scripts\MSHero.cs" />
      <Compile Include="Assets\Scripts\MSOtherPlayer.cs" />
      <Compile Include="Assets\Scripts\MSShare.cs" />
+     <Compile Include="Assets\Scripts\MSSimpleExecutor.cs" />
      <Compile Include="Assets\Scripts\SubModBase.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
  <Reference Include="Unity.Timeline.Editor">

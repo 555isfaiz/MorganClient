@@ -1,14 +1,21 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ModMotion : ModBase
 {
     GameObject go;
     Rigidbody rb;
-    public float moveSpeed = 5.0f;
-    public float groundY = 0.7f;
-    public float g = 25.0f;
-    public float premitiveV = 10.0f;
+    float moveSpeed = 5.0f;
+    float groundY = 0.7f;
+    float g = 25.0f;
+    float premitiveV = 10.0f;
+    float dashSpeed = 20.0f;
+    long dashStart;
+    long dashEnd;
+    long singleDashDuration = 300;
+    long maxDashDuration = 600;
+    Vector3 dashDirection = new Vector3(0, 0, 0);
     public float jumpStartTime;
     public int jumpPhase;
     public float nextJumpable;
@@ -47,6 +54,7 @@ public class ModMotion : ModBase
             UpdatePosition();
         }
         DoJump();
+        DoDash();
     }
 
     public override void StopOverride() {}
@@ -84,21 +92,56 @@ public class ModMotion : ModBase
     void UpdatePosition()
     {
         var direction = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.W))
+        // move directions
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_FORWARD))
         {
-            direction += forward;
+            // not dashing, then move
+            if (dashEnd == 0)
+            {
+                direction += forward;
+            }
         }
-        if (Input.GetKey(KeyCode.S))
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_BACKWARD))
         {
-            direction += back;
+            if (dashEnd == 0)
+            {
+                direction += back;
+            }
         }
-        if (Input.GetKey(KeyCode.A))
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_LEFT))
         {
-            direction += left;
+            if (dashEnd == 0)
+            {
+                direction += left;
+            }
         }
-        if (Input.GetKey(KeyCode.D))
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_RIGHT))
         {
-            direction += right;
+            if (dashEnd == 0)
+            {
+                direction += right;
+            }
+        }
+        // dash directions
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_FORWARD))
+        {
+            direction = new Vector3(0, 0, 0);
+            StartDash(forward);
+        }
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_BACKWARD))
+        {
+            direction = new Vector3(0, 0, 0);
+            StartDash(back);
+        }
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_LEFT))
+        {
+            direction = new Vector3(0, 0, 0);
+            StartDash(left);
+        }
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_RIGHT))
+        {
+            direction = new Vector3(0, 0, 0);
+            StartDash(right);
         }
 
         if (direction.x != 0.0f || direction.y != 0.0f || direction.z != 0.0f)
@@ -110,7 +153,7 @@ public class ModMotion : ModBase
             MSShare.func_SendMsg(GetCSMove(direction));
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.JUMP))
         {
             CSJump csjump = new CSJump();
             csjump.playerId = MSShare.mainPlayerId;
@@ -141,9 +184,44 @@ public class ModMotion : ModBase
         rb.velocity = speed;
     }
 
+    void StartDash(Vector3 direction)
+    {
+        dashDirection += direction;
+        if (dashStart == 0)
+        {
+            dashStart = Utils.GetTimeMilli();
+            dashEnd = dashStart + singleDashDuration;
+        }
+        else if ((dashEnd - dashStart) <= maxDashDuration)
+        {
+            dashEnd = Math.Min(dashEnd + singleDashDuration, dashStart + maxDashDuration);
+        }
+    }
+
+    void DoDash()
+    {
+        if (dashEnd == 0)
+        {
+            return;
+        }
+
+        go.transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+        long now = Utils.GetTimeMilli();
+        Debug.Log("dashing dir.x:" + dashDirection.x + ", dir.y:" + dashDirection.y + ", dir.z:" + dashDirection.z + "!!!!!!!!!!!!!!!!!!");
+        if (now >= dashEnd)
+        {
+            dashEnd = 0L;
+            dashStart = 0L;
+            dashDirection.x = 0;
+            dashDirection.y = 0;
+            dashDirection.z = 0;
+            Debug.Log("dash end~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        }
+    }
+
     Vector3 GetJumpSpeed(float deltaTime)
     {
-        var v3 =  new Vector3(0.0f, 0.0f, 0.0f);
+        var v3 =  new Vector3(0.0f, 0.0f, 0.0f); 
         v3.y = premitiveV - g * deltaTime;
         return v3;
     }
@@ -183,7 +261,7 @@ public class ModMotion : ModBase
             //     Debug.Log("lastErrorCode:" + lastErrorCode);
             // }
         }
-        Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
+        // Debug.Log("pos from server x:" + pos.x + " y:" + pos.y + " z:" + pos.z + " pos now x:" + go.transform.position.x + " y:" + go.transform.position.y + " z:" + go.transform.position.z);
     }
 
     public void OnSCJump()

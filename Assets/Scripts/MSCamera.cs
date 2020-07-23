@@ -11,22 +11,28 @@ public class MSCamera : MonoBehaviour
     GameObject player;
     MSNetWorker netWorker;
     public ModGameMaster gameMaster { get; set; }
+    public ModControl controller { get; set; }
     public float angle;
     void Start()
     {
         player = GameObject.Find("Player");
         netWorker = new MSNetWorker(this);
         gameMaster = new ModGameMaster(this, player);
+        controller = new ModControl(this);
         gameMaster.Start();
         netWorker.Start();
+        controller.Start();
         CSLogin msg = new CSLogin();
         netWorker.Send(msg);
+        MSShare.modControl = controller;
+        MSShare.modGameMaster = gameMaster;
     }
 
     void Update()
     {
         netWorker.Update();
         gameMaster.Update();
+        controller.Update();
     }
 
     void FixedUpdate()

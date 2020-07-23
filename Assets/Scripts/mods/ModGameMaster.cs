@@ -28,7 +28,8 @@ public class ModGameMaster : ModBase
 
     public override void UpdateOverride()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        // var controller = GetOwner()
+        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.SWITCH_LOCK))
         {
             switchLock();
         }
