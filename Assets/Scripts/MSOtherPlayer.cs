@@ -8,9 +8,11 @@ public class MSOtherPlayer : MonoBehaviour
     public ModGameObject modGameObj {get; set;}
     public int playerId { get; set; }
     public string playerName { get; set; }
+    public bool acceptSync { get; set; }
 
     void Start()
     {
+        acceptSync = true;
         modGameObj = new ModGameObject(this);
         modMotion = new ModMotion(this, gameObject);
         modGameObj.Start();

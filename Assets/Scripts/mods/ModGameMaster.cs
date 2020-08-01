@@ -94,6 +94,14 @@ public class ModGameMaster : ModBase
 
         foreach (var p in players)
         {
+            if (p.playerId != MSShare.mainPlayerId)
+            {
+                var other = GetPlayerObject(p.playerId) as MSOtherPlayer;
+                if (!other.acceptSync)
+                {
+                    continue;
+                }
+            }
             var go = GetPlayer(p.playerId);
             Vector3 pos = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
             if (p.playerId != mainPlayerId && Vector3.Distance(pos, go.transform.position) > 0)

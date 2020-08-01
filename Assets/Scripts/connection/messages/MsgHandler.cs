@@ -60,6 +60,14 @@ public class MsgHandler : SubModBase
                 OnSCJump(msg as SCJump);
                 break;
 
+            case 2006:
+                OnSCDashStart(msg as SCDashStart);
+                break;
+
+            case 2007:
+                OnSCDashStop(msg as SCDashStop);
+                break;
+
             default:
                 Debug.LogError("can't handle this message, msgId:" + id);
                 break;
@@ -114,5 +122,29 @@ public class MsgHandler : SubModBase
             l.Add((BPlayer)m);
         }
         GameMaster().SessionSync(msg.sessionId, l);
+    }
+
+    void OnSCDashStart(SCDashStart msg)
+    {
+        if (msg.playerId == MSShare.mainPlayerId)
+        {
+            return;
+        }
+        var gm = GameMaster();
+        var player = gm.GetPlayerObject(msg.playerId) as MSOtherPlayer;
+        Vector3 dir = new Vector3(msg.direction.x, msg.direction.y, msg.direction.z);
+        player.modMotion.SCDashStart(dir);
+    }
+
+    void OnSCDashStop(SCDashStop msg)
+    {
+        if (msg.playerId == MSShare.mainPlayerId)
+        {
+            return;
+        }
+        var gm = GameMaster();
+        var player = gm.GetPlayerObject(msg.playerId) as MSOtherPlayer;
+        Vector3 pos = new Vector3(msg.finalPos.x, msg.finalPos.y, msg.finalPos.z);
+        player.modMotion.SCDashEnd(pos);
     }
 }

@@ -48,11 +48,14 @@
      <Compile Include="Assets\Scripts\connection\messages\BPlayer.cs" />
      <Compile Include="Assets\Scripts\connection\messages\BVector2.cs" />
      <Compile Include="Assets\Scripts\connection\messages\BVector3.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\CSDash.cs" />
      <Compile Include="Assets\Scripts\connection\messages\CSJump.cs" />
      <Compile Include="Assets\Scripts\connection\messages\CSLogin.cs" />
      <Compile Include="Assets\Scripts\connection\messages\CSMove.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MessageBase.cs" />
      <Compile Include="Assets\Scripts\connection\messages\MsgHandler.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\SCDashStart.cs" />
+     <Compile Include="Assets\Scripts\connection\messages\SCDashStop.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCGameSync.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCJoinGame.cs" />
      <Compile Include="Assets\Scripts\connection\messages\SCJump.cs" />

@@ -53,6 +53,10 @@ public class ModMotion : ModBase
             UpdateDirection();
             UpdatePosition();
         }
+        else
+        {
+            go.transform.rotation = new Quaternion();
+        }
         DoJump();
         DoDash();
     }
@@ -191,10 +195,40 @@ public class ModMotion : ModBase
         {
             dashStart = Utils.GetTimeMilli();
             dashEnd = dashStart + singleDashDuration;
+            CSDash msg = new CSDash();
+            msg.direction = new BVector3();
+            msg.direction.x = dashDirection.x;
+            msg.direction.y = dashDirection.y;
+            msg.direction.z = dashDirection.z;
+            msg.duration = singleDashDuration;
+            MSShare.func_SendMsg(msg);
         }
         else if ((dashEnd - dashStart) <= maxDashDuration)
         {
             dashEnd = Math.Min(dashEnd + singleDashDuration, dashStart + maxDashDuration);
+        }
+    }
+
+    public void SCDashStart(Vector3 direction)
+    {
+        dashDirection = direction;
+        dashEnd = -1;
+        var other = GetOwner() as MSOtherPlayer;
+        other.acceptSync = false;
+    }
+
+    public void SCDashEnd(Vector3 finalPos)
+    {
+        dashDirection.x = 0;
+        dashDirection.y = 0;
+        dashDirection.z = 0;
+        dashEnd = 0L;
+        var other = GetOwner() as MSOtherPlayer;
+        other.acceptSync = true;
+
+        if (Vector3.Distance(go.transform.position, finalPos) > 1)
+        {
+            go.transform.position = finalPos;
         }
     }
 
@@ -205,10 +239,13 @@ public class ModMotion : ModBase
             return;
         }
 
-        go.transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+        Vector3 translate = dashDirection * dashSpeed * Time.deltaTime;
+        go.transform.Translate(translate);
         long now = Utils.GetTimeMilli();
         // Debug.Log("dashing dir.x:" + dashDirection.x + ", dir.y:" + dashDirection.y + ", dir.z:" + dashDirection.z + "!!!!!!!!!!!!!!!!!!");
-        if (now >= dashEnd)
+        Debug.Log("pos.x:" + translate.x + ", pos.y:" + translate.y + ", pos.z:" + translate.z + "!!!!!!!!!!!!!!!!!!");
+        // Debug.Log("dashing!!!!!");
+        if (dashEnd != -1 && now >= dashEnd)
         {
             dashEnd = 0L;
             dashStart = 0L;

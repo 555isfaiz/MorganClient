@@ -51,6 +51,18 @@ public abstract class MSMessageBase
         {
             return 2004;
         }
+        else if (msg is CSDash)
+        {
+            return 2005;
+        }
+        else if (msg is SCDashStart)
+        {
+            return 2006;
+        }
+        else if (msg is SCDashStop)
+        {
+            return 2007;
+        }
 
         return 0;
     }
@@ -102,6 +114,18 @@ public abstract class MSMessageBase
 
             case 2004:
                 msg = new SCJump();
+                break;
+
+            case 2005:
+                msg = new CSDash();
+                break;
+
+            case 2006:
+                msg = new SCDashStart();
+                break;
+
+            case 2007:
+                msg = new SCDashStop();
                 break;
 
 
