@@ -23,7 +23,7 @@ public class ModGameMaster : ModBase
     {
         GameObject canvas = GameObject.Find("Canvas");
         var modUI = new ModUIs(this, canvas);
-        subMods.Add("ModUIs", modUI);
+        subMods.Add(ModUIs.modName, modUI);
     }
 
     public override void UpdateOverride()
@@ -78,9 +78,7 @@ public class ModGameMaster : ModBase
             }
         }
         switchLock();
-        SubModBase modUI;
-        subMods.TryGetValue("ModUIs", out modUI);
-        ((ModUIs)modUI).OnJoinedGame();
+        ((ModUIs)GetSubMod(ModUIs.modName)).OnJoinedGame();
         Debug.Log("game inited!!");
     }
 

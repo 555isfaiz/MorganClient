@@ -5,6 +5,8 @@ public class MsgHandler : SubModBase
 {
     InputStream input = new InputStream();
 
+    public static string modName = "MsgHandler";
+
     public MsgHandler(ModBase owner) : base(owner){}
 
     public override void Start(){}

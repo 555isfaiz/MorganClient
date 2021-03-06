@@ -13,23 +13,40 @@ public class MSCamera : MonoBehaviour
     public ModGameMaster gameMaster { get; set; }
     public ModControl controller { get; set; }
     public float angle;
+    public bool gameInited = false;
+
     void Start()
     {
         player = GameObject.Find("Player");
         netWorker = new MSNetWorker(this);
         gameMaster = new ModGameMaster(this, player);
         controller = new ModControl(this);
+        MSShare.modControl = controller;
+        MSShare.modGameMaster = gameMaster;
         gameMaster.Start();
+    }
+
+    void Init() 
+    {
         netWorker.Start();
         controller.Start();
         CSLogin msg = new CSLogin();
         netWorker.Send(msg);
-        MSShare.modControl = controller;
-        MSShare.modGameMaster = gameMaster;
+        gameInited = true;
     }
 
     void Update()
-    {
+    {   
+        if (!MSShare.inited)
+        {
+            return;
+        }
+
+        if (MSShare.inited && !gameInited)
+        {
+            Init();
+            return;
+        }
         netWorker.Update();
         gameMaster.Update();
         controller.Update();

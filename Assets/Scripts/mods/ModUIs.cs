@@ -10,6 +10,8 @@ public class ModUIs : SubModBase
 
     Dictionary<int, Transform> dotTagPos = new Dictionary<int, Transform>();
 
+    public static string modName = "ModUIs";
+
     public ModUIs(ModBase owner, GameObject canvas) : base(owner) { this.canvas = canvas; }
 
     public override void Start() {}
@@ -21,8 +23,18 @@ public class ModUIs : SubModBase
 
     public override void Stop() {}
 
+    public void PreInit() 
+    {
+        GameObject.Find("Target").SetActive(false);
+        GameObject.Find("Shooter").SetActive(false);
+        var waitingText = GameObject.Find("WaitingText");
+        var text = waitingText.GetComponent<Text>();
+        text.text = string.Format("waiting for {0} to join...", MSShare.isShooter ? "target" : "shooter");
+    }
+
     public void OnJoinedGame()
     {
+        GameObject.Find("WaitingText").SetActive(false);
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();
         GameObject dogTag =  Resources.Load("DogTag") as GameObject;
         int id = MSShare.mainPlayerId;

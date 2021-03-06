@@ -26,7 +26,7 @@ public class MSNetWorker : ModBase
         worker = new Thread(ts);
         start = true;
         MsgHandler msgHandler = new MsgHandler(this);
-        AddSubMod("MsgHandler", msgHandler);
+        AddSubMod(MsgHandler.modName, msgHandler);
         worker.Start();
         MSShare.func_SendMsg = Send;
     }

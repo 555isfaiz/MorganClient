@@ -62,4 +62,11 @@ public abstract class ModBase
 
         subMods.Add(name, m);
     }
+
+    public SubModBase GetSubMod(string name) 
+    {
+        SubModBase subMod;
+        subMods.TryGetValue(name, out subMod);
+        return subMod;
+    } 
 }
