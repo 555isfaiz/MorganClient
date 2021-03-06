@@ -48,6 +48,7 @@ public class ModGameMaster : ModBase
         MSShare.mainPlayerId = id;
     }
 
+    // using myside to tell if I am shooter or target
     public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
     {
         this.lastGameSession = lastGameSession;

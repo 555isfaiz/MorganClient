@@ -17,6 +17,7 @@ public class MSShare
     {
         ModUIs modUIs = modGameMaster.GetSubMod(ModUIs.modName) as ModUIs;
         modUIs.PreInit();
+        inited = true;
     }
 
     public static void OnClickShooter() 
