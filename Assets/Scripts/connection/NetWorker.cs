@@ -11,6 +11,7 @@ public class MSNetWorker : ModBase
     Socket s;
     bool start = false;
     ThreadStart ts;
+    OutputStream outs = new OutputStream();
     public ConcurrentQueue<byte[]> recvQ;
     public MSNetWorker(MonoBehaviour owner) : base(owner)
     {
@@ -41,7 +42,7 @@ public class MSNetWorker : ModBase
 
     public void Send(MSMessageBase msg)
     {
-        OutputStream outs = new OutputStream();
+        outs.reset();
         outs.write<MSMessageBase>(msg);
         Send(outs.getBuffer());
     }

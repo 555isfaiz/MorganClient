@@ -571,6 +571,8 @@ MonoBehaviour:
   moveAngle: 30
   angle: 0
   gameInited: 0
+  speed: 5
+  bottomLimitAngle: 20
 --- !u!1 &1415185086
 GameObject:
   m_ObjectHideFlags: 0
