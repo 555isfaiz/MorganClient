@@ -22,17 +22,17 @@ public class ModGameMaster : ModBase
     public override void StartOverride()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        var modUI = new ModUIs(this, canvas);
-        subMods.Add(ModUIs.modName, modUI);
+        var modUI = new SModUIs(this, canvas);
+        subMods.Add(SModUIs.modName, modUI);
     }
 
     public override void UpdateOverride()
     {
         // var controller = GetOwner()
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.SWITCH_LOCK))
-        {
-            switchLock();
-        }
+        // if (MSShare.modControl.TryExecuteCommand(ModControl.Command.SWITCH_LOCK))
+        // {
+        //     switchLock();
+        // }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -45,14 +45,14 @@ public class ModGameMaster : ModBase
     public void SetMyId(int id)
     {
         mainPlayerId = id;
-        MSShare.mainPlayerId = id;
+        MSMain.mainPlayerId = id;
     }
 
     // using myside to tell if I am shooter or target
     public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
     {
         this.lastGameSession = lastGameSession;
-        MSShare.currentSessionId = lastGameSession;
+        MSMain.currentSessionId = lastGameSession;
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
         foreach (var p in players)
         {
@@ -78,22 +78,22 @@ public class ModGameMaster : ModBase
                 this.msOther.Add(p.playerId, msother);
             }
         }
-        switchLock();
-        ((ModUIs)GetSubMod(ModUIs.modName)).OnJoinedGame();
+        // switchLock();
+        FireGameJoin();
         Debug.Log("game inited!!");
     }
 
     public void SessionSync(int sessionId, List<BPlayer> players)
     {
-        if (sessionId != MSShare.currentSessionId)
+        if (sessionId != MSMain.currentSessionId)
         {
-            Debug.LogError("incorrect sessionId, received:" + sessionId + ", currentId:" + MSShare.currentSessionId);
+            Debug.LogError("incorrect sessionId, received:" + sessionId + ", currentId:" + MSMain.currentSessionId);
             return;
         }
 
         foreach (var p in players)
         {
-            if (p.playerId != MSShare.mainPlayerId)
+            if (p.playerId != MSMain.mainPlayerId)
             {
                 var other = GetPlayerObject(p.playerId) as MSOtherPlayer;
                 if (!other.acceptSync)
@@ -110,37 +110,6 @@ public class ModGameMaster : ModBase
 
             // ...
         }
-    }
-
-    public void switchLock()
-    {
-        int toLock = 0;
-        foreach (var e in otherPlayer)
-        {
-            if (e.Key == currentLock)
-            {
-                continue;
-            }
-
-            if (e.Key == teamMateId)
-            {
-                continue;
-            }
-
-            toLock = e.Key;
-        }
-
-        MSCamera c = (MSCamera)GetOwner();
-        if (toLock == 0)
-        {
-            c.locked = false;
-        } 
-        else
-        {
-            c.locked = true;
-        }
-        currentLock = toLock;
-        c.QuickSwitch(GetTargetPos());
     }
 
     public Vector3 GetTargetPos()
@@ -198,6 +167,11 @@ public class ModGameMaster : ModBase
         }
     }
 
+    public GameObject GetMainPlayer()
+    {
+        return mainPlayer;
+    }
+
     public Dictionary<int, GameObject> GetAllPlayerObjects()
     {
         Dictionary<int, GameObject> all = new Dictionary<int, GameObject>();
@@ -220,5 +194,10 @@ public class ModGameMaster : ModBase
 
         all.Add(mainPlayerId, msHero);
         return all;
+    }
+
+    public MonoBehaviour GetCameraObject()
+    {
+        return GetOwner();
     }
 }

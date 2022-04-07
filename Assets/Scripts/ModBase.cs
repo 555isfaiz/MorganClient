@@ -33,6 +33,18 @@ public abstract class ModBase
             p.Value.Update();
         }
     }
+    
+    public virtual void FixedUpdate()
+    {
+        FixedUpdateOverride();
+
+        foreach (var p in subMods)
+        {
+            p.Value.FixedUpdate();
+        }
+    }
+
+    public virtual void FixedUpdateOverride() {}
 
     public abstract void UpdateOverride();
 
@@ -69,4 +81,52 @@ public abstract class ModBase
         subMods.TryGetValue(name, out subMod);
         return subMod;
     } 
+
+    protected virtual void OnEventGameInit() {}
+
+    protected void FireGameInit()
+    {
+        OnEventGameInit();
+
+        foreach (var p in subMods)
+        {
+            p.Value.OnEventGameInit();
+        }
+    }
+
+    protected virtual void OnEventGameJoin() {}
+
+    protected void FireGameJoin() 
+    {
+        OnEventGameJoin();
+
+        foreach (var p in subMods)
+        {
+            p.Value.OnEventGameJoin();
+        }
+    }
+
+    protected virtual void OnEventGameEnd() {}
+
+    protected void FireGameEnd() 
+    {
+        OnEventGameEnd();
+
+        foreach (var p in subMods)
+        {
+            p.Value.OnEventGameEnd();
+        }
+    }
+
+    protected virtual void OnEventGameQuit() {}
+
+    protected void FireGameQuit() 
+    {
+        OnEventGameQuit();
+        
+        foreach (var p in subMods)
+        {
+            p.Value.OnEventGameQuit();
+        }
+    }
 }

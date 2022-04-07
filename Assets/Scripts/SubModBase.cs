@@ -11,10 +11,17 @@ public abstract class SubModBase
 
     public abstract void Update();
 
+    public virtual void FixedUpdate() {}
+
     public abstract void Stop();
 
     public ModBase GetOwner()
     {
         return owner;
     }
+
+    public virtual void OnEventGameInit() {}
+    public virtual void OnEventGameJoin() {}
+    public virtual void OnEventGameEnd() {}
+    public virtual void OnEventGameQuit() {}
 }

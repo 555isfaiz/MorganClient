@@ -6,15 +6,8 @@ public class ModMotion : ModBase
 {
     GameObject go;
     Rigidbody rb;
-    float moveSpeed = 5.0f;
-    float groundY = 0.7f;
-    float g = 25.0f;
-    float premitiveV = 10.0f;
-    float dashSpeed = 20.0f;
     long dashStart;
     long dashEnd;
-    long singleDashDuration = 300;
-    long maxDashDuration = 600;
     Vector3 dashDirection = new Vector3(0, 0, 0);
     public float jumpStartTime;
     public int jumpPhase;
@@ -97,7 +90,7 @@ public class ModMotion : ModBase
     {
         var direction = new Vector3(0, 0, 0);
         // move directions
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_FORWARD))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.MOVE_FORWARD))
         {
             // not dashing, then move
             if (dashEnd == 0)
@@ -105,21 +98,21 @@ public class ModMotion : ModBase
                 direction += forward;
             }
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_BACKWARD))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.MOVE_BACKWARD))
         {
             if (dashEnd == 0)
             {
                 direction += back;
             }
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_LEFT))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.MOVE_LEFT))
         {
             if (dashEnd == 0)
             {
                 direction += left;
             }
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.MOVE_RIGHT))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.MOVE_RIGHT))
         {
             if (dashEnd == 0)
             {
@@ -127,22 +120,22 @@ public class ModMotion : ModBase
             }
         }
         // dash directions
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_FORWARD))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.DASH_FORWARD))
         {
             direction = new Vector3(0, 0, 0);
             StartDash(forward);
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_BACKWARD))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.DASH_BACKWARD))
         {
             direction = new Vector3(0, 0, 0);
             StartDash(back);
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_LEFT))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.DASH_LEFT))
         {
             direction = new Vector3(0, 0, 0);
             StartDash(left);
         }
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.DASH_RIGHT))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.DASH_RIGHT))
         {
             direction = new Vector3(0, 0, 0);
             StartDash(right);
@@ -152,16 +145,16 @@ public class ModMotion : ModBase
         {
             if (lastErrorCode != -1)
             {
-                go.transform.Translate(direction * moveSpeed * Time.deltaTime);
+                go.transform.Translate(direction * MSGlobalParams.moveSpeed * Time.deltaTime);
             }
-            MSShare.func_SendMsg(GetCSMove(direction));
+            MSMain.func_SendMsg(GetCSMove(direction));
         }
 
-        if (MSShare.modControl.TryExecuteCommand(ModControl.Command.JUMP))
+        if (MSMain.modControl.TryExecuteCommand(ModControl.Command.JUMP))
         {
             CSJump csjump = new CSJump();
-            csjump.playerId = MSShare.mainPlayerId;
-            MSShare.func_SendMsg(csjump);
+            csjump.playerId = MSMain.mainPlayerId;
+            MSMain.func_SendMsg(csjump);
             StartJump();
         }
     }
@@ -172,7 +165,7 @@ public class ModMotion : ModBase
         {
             jumpPhase = jumpPhase + 1;
             jumpStartTime = Time.time;
-            var pv = new Vector3(0.0f, premitiveV, 0.0f);
+            var pv = new Vector3(0.0f, MSGlobalParams.premitiveV, 0.0f);
             rb.velocity = pv;
         }
     }
@@ -194,18 +187,18 @@ public class ModMotion : ModBase
         if (dashStart == 0)
         {
             dashStart = Utils.GetTimeMilli();
-            dashEnd = dashStart + singleDashDuration;
+            dashEnd = dashStart + MSGlobalParams.singleDashDuration;
             CSDash msg = new CSDash();
             msg.direction = new BVector3();
             msg.direction.x = dashDirection.x;
             msg.direction.y = dashDirection.y;
             msg.direction.z = dashDirection.z;
-            msg.duration = singleDashDuration;
-            MSShare.func_SendMsg(msg);
+            msg.duration = MSGlobalParams.singleDashDuration;
+            MSMain.func_SendMsg(msg);
         }
-        else if ((dashEnd - dashStart) <= maxDashDuration)
+        else if ((dashEnd - dashStart) <= MSGlobalParams.maxDashDuration)
         {
-            dashEnd = Math.Min(dashEnd + singleDashDuration, dashStart + maxDashDuration);
+            dashEnd = Math.Min(dashEnd + MSGlobalParams.singleDashDuration, dashStart + MSGlobalParams.maxDashDuration);
         }
     }
 
@@ -239,7 +232,7 @@ public class ModMotion : ModBase
             return;
         }
 
-        Vector3 translate = dashDirection * dashSpeed * Time.deltaTime;
+        Vector3 translate = dashDirection * MSGlobalParams.dashSpeed * Time.deltaTime;
         go.transform.Translate(translate);
         long now = Utils.GetTimeMilli();
         // Debug.Log("dashing dir.x:" + dashDirection.x + ", dir.y:" + dashDirection.y + ", dir.z:" + dashDirection.z + "!!!!!!!!!!!!!!!!!!");
@@ -259,14 +252,14 @@ public class ModMotion : ModBase
     Vector3 GetJumpSpeed(float deltaTime)
     {
         var v3 =  new Vector3(0.0f, 0.0f, 0.0f); 
-        v3.y = premitiveV - g * deltaTime;
+        v3.y = MSGlobalParams.premitiveV - MSGlobalParams.g * deltaTime;
         return v3;
     }
 
     CSMove GetCSMove(Vector3 direction)
     {
         CSMove msg = new CSMove();
-        msg.playerId = MSShare.mainPlayerId;
+        msg.playerId = MSMain.mainPlayerId;
         msg.curPos = new BVector3();
         msg.curPos.x = go.transform.position.x;
         msg.curPos.y = go.transform.position.y;

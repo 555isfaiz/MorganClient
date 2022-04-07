@@ -29,7 +29,7 @@ public class MSNetWorker : ModBase
         MsgHandler msgHandler = new MsgHandler(this);
         AddSubMod(MsgHandler.modName, msgHandler);
         worker.Start();
-        MSShare.func_SendMsg = Send;
+        MSMain.func_SendMsg = Send;
     }
 
     public override void Update()

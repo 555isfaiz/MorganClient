@@ -10,11 +10,13 @@ public class MSButtonAction : MonoBehaviour
 
     public void OnClickShooter()
     {
-        MSShare.OnClickShooter();
+        Debug.Log("click shooter!");
+        MSMain.OnClickShooter();
     }
 
     public void OnClickTarget()
     {
-        MSShare.OnClickTarget();
+        Debug.Log("click target!");
+        MSMain.OnClickTarget();
     }
 }

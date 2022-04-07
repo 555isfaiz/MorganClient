@@ -18,17 +18,39 @@ public class ModControl : ModBase
         SWITCH_LOCK,
     }
 
+    GameObject player;
+
+    MonoBehaviour camera;
+
     public int[] commands_ = new int[50];        // 50 commands total, consider expand in future
 
     int[] commandBuff_ = new int[50];
         
     long nextFlush_;
 
+    float fMouseX = 0.0f;
+
+	float fMouseY = 0.0f;
+
+	float bottomLimit;//the cos value
+
+    Vector3 dirVector;
+
     MSSimpleExecutor executor = new MSSimpleExecutor();
 
     public ModControl(MonoBehaviour owner) : base(owner) { nextFlush_ = Utils.GetTimeMilli(); }
 
-    public override void StartOverride() {}
+    public override void StartOverride() 
+    {
+        // init camera
+        player = MSMain.modGameMaster.GetMainPlayer();
+        camera = MSMain.modGameMaster.GetCameraObject();
+        Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+        dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
+        // camera.transform.position = player.transform.position + fixedDistance * (-dirVector);
+        bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
+    }
 
     public override void UpdateOverride()
     {
@@ -78,10 +100,10 @@ public class ModControl : ModBase
             MoveDelayClean(Command.MOVE_RIGHT, now);
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            commands_[IndexOf(Command.SWITCH_LOCK)] = 1;
-        }
+        // if (Input.GetKeyDown(KeyCode.J))
+        // {
+        //     commands_[IndexOf(Command.SWITCH_LOCK)] = 1;
+        // }
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -94,6 +116,11 @@ public class ModControl : ModBase
             FlushBuff();
             nextFlush_ = now + 100;     //0.1s
         }
+    }
+
+    public override void FixedUpdateOverride()
+    {
+        CameraMove();
     }
 
     public override void StopOverride() {}
@@ -121,7 +148,7 @@ public class ModControl : ModBase
     {
         executor.Add(new MSTask
         {
-            delay = now + 80,       // this will affect the minumn time for double tap
+            delay = now + MSGlobalParams.keyCleanDelay,       // this will affect the minumn time for double tap
             func = () =>
             {
                 // when a move key is up. After 0.1s delay, the move command will be removed in commandBuff_
@@ -160,4 +187,51 @@ public class ModControl : ModBase
 
         return true;
     } 
+
+    void CameraMove()
+    {
+        var posv3 = new Vector3(camera.transform.position.x, MSGlobalParams.fixedHeight + player.transform.position.y, camera.transform.position.z);
+
+        //Camera Move
+		fMouseX = Input.GetAxis("Mouse X");
+		fMouseY = Input.GetAxis("Mouse Y");
+        Debug.Log("mouse x:" + fMouseX + ", mouse y:" + fMouseY);
+ 
+		//avoid dithering
+		if (Vector3.Dot (-dirVector.normalized, -player.transform.up.normalized) > bottomLimit) {
+			if (fMouseY > 0) {
+				fMouseY = 0;
+			};
+		}
+
+		//Rotate Horizontal
+		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f) ,player.transform.up, MSGlobalParams.speed * fMouseX);
+		//Rotate Vertical
+		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.speed * fMouseY);
+		//distance Control
+		dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
+    }
+
+    Vector3 VerticalRotateAxis(Vector3 dirVector){
+		Vector3 player2Camera = -dirVector.normalized;
+		float x = player2Camera.x;
+		float z = player2Camera.z;
+		Vector3 rotateAxis = Vector3.zero;
+		rotateAxis.z = Mathf.Sqrt (x * x / (x * x + z * z));
+		rotateAxis.x = Mathf.Sqrt (z * z / (x * x + z * z));
+		if (x >= 0) {
+			if (z >= 0) {
+				rotateAxis.x = -rotateAxis.x;
+			}
+		} else {
+			if (z >= 0) {
+				rotateAxis.x = -rotateAxis.x;
+				rotateAxis.z = -rotateAxis.z;
+			} else {
+				rotateAxis.z = -rotateAxis.z;
+			}
+		}
+		// Debug.Log (rotateAxis);
+		return rotateAxis;
+	}
 }

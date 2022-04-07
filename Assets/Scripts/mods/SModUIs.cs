@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModUIs : SubModBase
+public class SModUIs : SubModBase
 {
     GameObject canvas;
 
@@ -10,9 +10,9 @@ public class ModUIs : SubModBase
 
     Dictionary<int, Transform> dotTagPos = new Dictionary<int, Transform>();
 
-    public static string modName = "ModUIs";
+    public static string modName = "SModUIs";
 
-    public ModUIs(ModBase owner, GameObject canvas) : base(owner) { this.canvas = canvas; }
+    public SModUIs(ModBase owner, GameObject canvas) : base(owner) { this.canvas = canvas; }
 
     public override void Start() {}
 
@@ -29,15 +29,15 @@ public class ModUIs : SubModBase
         GameObject.Find("Shooter").SetActive(false);
         var waitingText = GameObject.Find("WaitingText");
         var text = waitingText.GetComponent<Text>();
-        text.text = string.Format("waiting for {0} to join...", MSShare.isShooter ? "target" : "shooter");
+        text.text = string.Format("waiting for {0} to join...", MSMain.isShooter ? "target" : "shooter");
     }
 
-    public void OnJoinedGame()
+    public override void OnEventGameJoin()
     {
         GameObject.Find("WaitingText").SetActive(false);
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();
         GameObject dogTag =  Resources.Load("DogTag") as GameObject;
-        int id = MSShare.mainPlayerId;
+        int id = MSMain.mainPlayerId;
         int teamMate = ((ModGameMaster)GetOwner()).teamMateId;
         foreach (var pair in players)
         {

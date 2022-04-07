@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-public class MSShare
+public class MSMain
 {
     public static int currentSessionId;
     public static int mainPlayerId;
@@ -13,22 +12,25 @@ public class MSShare
     public static bool inited = false;
     public static bool isShooter;
 
-    static void PreInit() 
+    static void Init() 
     {
-        ModUIs modUIs = modGameMaster.GetSubMod(ModUIs.modName) as ModUIs;
+        modControl.Start();
+        SModUIs modUIs = modGameMaster.GetSubMod(SModUIs.modName) as SModUIs;
         modUIs.PreInit();
+        CSLogin msg = new CSLogin();
+        func_SendMsg(msg);
         inited = true;
     }
 
     public static void OnClickShooter() 
     {
         isShooter = true;
-        PreInit();
+        Init();
     }
 
     public static void OnClickTarget() 
     {
         isShooter = false;
-        PreInit();
+        Init();
     }
 }

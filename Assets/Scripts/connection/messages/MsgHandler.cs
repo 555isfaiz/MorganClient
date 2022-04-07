@@ -98,7 +98,7 @@ public class MsgHandler : SubModBase
         var other = gm.GetPlayerObject(msg.playerId);
         Vector3 pos = new Vector3(msg.curPos.x, msg.curPos.y, msg.curPos.z);
         Vector3 dir = new Vector3(msg.direction.x, msg.direction.y, msg.direction.z);
-        if (msg.playerId == MSShare.mainPlayerId)
+        if (msg.playerId == MSMain.mainPlayerId)
         {
             (other as MSHero).modMotion.OnSCMove(pos, dir, msg.result);
         }
@@ -128,7 +128,7 @@ public class MsgHandler : SubModBase
 
     void OnSCDashStart(SCDashStart msg)
     {
-        if (msg.playerId == MSShare.mainPlayerId)
+        if (msg.playerId == MSMain.mainPlayerId)
         {
             return;
         }
@@ -140,7 +140,7 @@ public class MsgHandler : SubModBase
 
     void OnSCDashStop(SCDashStop msg)
     {
-        if (msg.playerId == MSShare.mainPlayerId)
+        if (msg.playerId == MSMain.mainPlayerId)
         {
             return;
         }

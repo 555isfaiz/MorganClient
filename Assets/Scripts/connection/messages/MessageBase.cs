@@ -7,35 +7,7 @@ public abstract class MSMessageBase
 
     public static int GetMessageId(MSMessageBase msg)
     {
-        if  (msg is BVector2)
-        {
-            return 102;
-        }
-        else if (msg is BVector3)
-        {
-            return 103;
-        }
-        else if (msg is BPlayer)
-        {
-            return 101;
-        }
-        else if (msg is CSLogin)
-        {
-            return 1001;
-        }
-        else if (msg is SCJoinGame)
-        {
-            return 1003;
-        }
-        else if (msg is SCLogin)
-        {
-            return 1004;
-        }
-        else if (msg is SCGameSync)
-        {
-            return 1005;
-        }
-        else if (msg is CSMove)
+        if  (msg is CSMove)
         {
             return 2001;
         }
@@ -63,6 +35,34 @@ public abstract class MSMessageBase
         {
             return 2007;
         }
+        else if (msg is BVector2)
+        {
+            return 102;
+        }
+        else if (msg is BVector3)
+        {
+            return 103;
+        }
+        else if (msg is BPlayer)
+        {
+            return 101;
+        }
+        else if (msg is CSLogin)
+        {
+            return 1001;
+        }
+        else if (msg is SCJoinGame)
+        {
+            return 1003;
+        }
+        else if (msg is SCLogin)
+        {
+            return 1004;
+        }
+        else if (msg is SCGameSync)
+        {
+            return 1005;
+        }
 
         return 0;
     }
@@ -72,34 +72,6 @@ public abstract class MSMessageBase
         MSMessageBase msg = null;
         switch (id)
         {
-            case 102:
-                msg = new BVector2();
-                break;
-
-            case 103:
-                msg = new BVector3();
-                break;
-
-            case 101:
-                msg = new BPlayer();
-                break;
-
-            case 1001:
-                msg = new CSLogin();
-                break;
-
-            case 1003:
-                msg = new SCJoinGame();
-                break;
-
-            case 1004:
-                msg = new SCLogin();
-                break;
-
-            case 1005:
-                msg = new SCGameSync();
-                break;
-
             case 2001:
                 msg = new CSMove();
                 break;
@@ -126,6 +98,34 @@ public abstract class MSMessageBase
 
             case 2007:
                 msg = new SCDashStop();
+                break;
+
+            case 102:
+                msg = new BVector2();
+                break;
+
+            case 103:
+                msg = new BVector3();
+                break;
+
+            case 101:
+                msg = new BPlayer();
+                break;
+
+            case 1001:
+                msg = new CSLogin();
+                break;
+
+            case 1003:
+                msg = new SCJoinGame();
+                break;
+
+            case 1004:
+                msg = new SCLogin();
+                break;
+
+            case 1005:
+                msg = new SCGameSync();
                 break;
 
 
