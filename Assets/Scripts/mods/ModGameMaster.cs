@@ -49,8 +49,11 @@ public class ModGameMaster : ModBase
     }
 
     // using myside to tell if I am shooter or target
-    public void NewGame(int myside, int lastGameSession, List<BPlayer> players)
+    protected override void OnEventGameJoin(params object[] args)
     {
+        int myside = (int)args[0];
+        int lastGameSession = (int)args[1];
+        List<BPlayer> players = args[2] as List<BPlayer>;
         this.lastGameSession = lastGameSession;
         MSMain.currentSessionId = lastGameSession;
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
@@ -78,8 +81,6 @@ public class ModGameMaster : ModBase
                 this.msOther.Add(p.playerId, msother);
             }
         }
-        // switchLock();
-        FireGameJoin();
         Debug.Log("game inited!!");
     }
 

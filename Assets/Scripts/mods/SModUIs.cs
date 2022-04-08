@@ -23,16 +23,16 @@ public class SModUIs : SubModBase
 
     public override void Stop() {}
 
-    public void PreInit() 
+    public void WaitJoin() 
     {
-        GameObject.Find("Target").SetActive(false);
-        GameObject.Find("Shooter").SetActive(false);
+        GameObject.Find("Start").SetActive(false);
+        GameObject.Find("Quit").SetActive(false);
         var waitingText = GameObject.Find("WaitingText");
         var text = waitingText.GetComponent<Text>();
-        text.text = string.Format("waiting for {0} to join...", MSMain.isShooter ? "target" : "shooter");
+        text.text = string.Format("waiting for players to join...");
     }
 
-    public override void OnEventGameJoin()
+    public override void OnEventGameJoin(params object[] args)
     {
         GameObject.Find("WaitingText").SetActive(false);
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();

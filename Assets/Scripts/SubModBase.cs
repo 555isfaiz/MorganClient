@@ -20,8 +20,8 @@ public abstract class SubModBase
         return owner;
     }
 
-    public virtual void OnEventGameInit() {}
-    public virtual void OnEventGameJoin() {}
-    public virtual void OnEventGameEnd() {}
-    public virtual void OnEventGameQuit() {}
+    public virtual void OnEventGameInit(params object[] args) {}
+    public virtual void OnEventGameJoin(params object[] args) {}
+    public virtual void OnEventGameEnd(params object[] args) {}
+    public virtual void OnEventGameQuit(params object[] args) {}
 }

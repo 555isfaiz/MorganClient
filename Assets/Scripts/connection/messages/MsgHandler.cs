@@ -84,7 +84,7 @@ public class MsgHandler : SubModBase
         {
             l.Add((BPlayer)m);
         }
-        GameMaster().NewGame(msg.mySide, msg.sessionId, l);
+        MSMain.GameJoined(msg.mySide, msg.sessionId, l);
     }
 
     void OnSCLogin(SCLogin msg)

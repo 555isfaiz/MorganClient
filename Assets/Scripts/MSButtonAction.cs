@@ -8,15 +8,13 @@ public class MSButtonAction : MonoBehaviour
 
     void Update() {}
 
-    public void OnClickShooter()
+    public void OnClickStart()
     {
-        Debug.Log("click shooter!");
-        MSMain.OnClickShooter();
+        MSMain.Login();
     }
 
-    public void OnClickTarget()
+    public void OnClickQuit()
     {
-        Debug.Log("click target!");
-        MSMain.OnClickTarget();
+        MSMain.Quit();
     }
 }

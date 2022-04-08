@@ -82,51 +82,51 @@ public abstract class ModBase
         return subMod;
     } 
 
-    protected virtual void OnEventGameInit() {}
+    protected virtual void OnEventGameInit(params object[] args) {}
 
-    protected void FireGameInit()
+    public void FireGameInit(params object[] args)
     {
-        OnEventGameInit();
+        OnEventGameInit(args);
 
         foreach (var p in subMods)
         {
-            p.Value.OnEventGameInit();
+            p.Value.OnEventGameInit(args);
         }
     }
 
-    protected virtual void OnEventGameJoin() {}
+    protected virtual void OnEventGameJoin(params object[] args) {}
 
-    protected void FireGameJoin() 
+    public void FireGameJoin(params object[] args) 
     {
-        OnEventGameJoin();
+        OnEventGameJoin(args);
 
         foreach (var p in subMods)
         {
-            p.Value.OnEventGameJoin();
+            p.Value.OnEventGameJoin(args);
         }
     }
 
-    protected virtual void OnEventGameEnd() {}
+    protected virtual void OnEventGameEnd(params object[] args) {}
 
-    protected void FireGameEnd() 
+    public void FireGameEnd(params object[] args) 
     {
-        OnEventGameEnd();
+        OnEventGameEnd(args);
 
         foreach (var p in subMods)
         {
-            p.Value.OnEventGameEnd();
+            p.Value.OnEventGameEnd(args);
         }
     }
 
-    protected virtual void OnEventGameQuit() {}
+    protected virtual void OnEventGameQuit(params object[] args) {}
 
-    protected void FireGameQuit() 
+    public void FireGameQuit(params object[] args) 
     {
-        OnEventGameQuit();
+        OnEventGameQuit(args);
         
         foreach (var p in subMods)
         {
-            p.Value.OnEventGameQuit();
+            p.Value.OnEventGameQuit(args);
         }
     }
 }

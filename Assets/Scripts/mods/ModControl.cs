@@ -28,10 +28,6 @@ public class ModControl : ModBase
         
     long nextFlush_;
 
-    float fMouseX = 0.0f;
-
-	float fMouseY = 0.0f;
-
 	float bottomLimit;//the cos value
 
     Vector3 dirVector;
@@ -45,11 +41,6 @@ public class ModControl : ModBase
         // init camera
         player = MSMain.modGameMaster.GetMainPlayer();
         camera = MSMain.modGameMaster.GetCameraObject();
-        Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
-        dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
-        // camera.transform.position = player.transform.position + fixedDistance * (-dirVector);
-        bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
     }
 
     public override void UpdateOverride()
@@ -130,6 +121,14 @@ public class ModControl : ModBase
         return (int)command;
     }
 
+    protected override void OnEventGameJoin(params object[] args)
+    {
+        Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+        dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
+        bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
+    }
+
     void MoveCommand(Command command) 
     {
         int index = IndexOf(command);
@@ -190,18 +189,20 @@ public class ModControl : ModBase
 
     void CameraMove()
     {
-        var posv3 = new Vector3(camera.transform.position.x, MSGlobalParams.fixedHeight + player.transform.position.y, camera.transform.position.z);
+        // var posv3 = new Vector3(camera.transform.position.x, MSGlobalParams.fixedHeight + player.transform.position.y, camera.transform.position.z);
 
         //Camera Move
-		fMouseX = Input.GetAxis("Mouse X");
-		fMouseY = Input.GetAxis("Mouse Y");
-        Debug.Log("mouse x:" + fMouseX + ", mouse y:" + fMouseY);
+		float fMouseX = Input.GetAxis("Mouse X");
+		float fMouseY = Input.GetAxis("Mouse Y");
+        // Debug.Log("mouse x:" + fMouseX + ", mouse y:" + fMouseY);
  
 		//avoid dithering
-		if (Vector3.Dot (-dirVector.normalized, -player.transform.up.normalized) > bottomLimit) {
-			if (fMouseY > 0) {
+		if (Vector3.Dot(-dirVector.normalized, -player.transform.up.normalized) > bottomLimit) 
+        {
+			if (fMouseY > 0) 
+            {
 				fMouseY = 0;
-			};
+			}
 		}
 
 		//Rotate Horizontal
@@ -210,6 +211,7 @@ public class ModControl : ModBase
 		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.speed * fMouseY);
 		//distance Control
 		dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
+        camera.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
     }
 
     Vector3 VerticalRotateAxis(Vector3 dirVector){
