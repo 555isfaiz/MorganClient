@@ -9,3 +9,6 @@ Library/
 Temp/
 obj/
 ProjectSettings/
+*.csproj
+Logs/
+Billing*

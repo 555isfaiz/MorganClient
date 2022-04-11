@@ -4,21 +4,10 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    {
-        "name": ".NET Core Launch (console)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        "program": "${workspaceFolder}/Assets/Scripts/net/NetWorker.exe",
-        "args": [],
-        "cwd": "${workspaceFolder}",
-        "stopAtEntry": false,
-        "console": "internalConsole"
-    },
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/e:/work/unity/demo/Library/EditorInstance.json",
+            "path": "/home/fu1lp0w3r/working/MorganClient/Library/EditorInstance.json",
             "request": "launch"
         },
         {
@@ -43,6 +32,21 @@
         },
         {
             "name": "Android Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "Xbox One Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "PS4 Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "SwitchPlayer",
             "type": "unity",
             "request": "launch"
         }
