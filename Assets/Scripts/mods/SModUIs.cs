@@ -57,9 +57,13 @@ public class SModUIs : SubModBase
             dt.transform.parent = canvas.transform;
             var text = dt.GetComponent<Text>();
             text.text = dogTagText;
-            if (pair.Key == id || pair.Key == teamMate)
+            if (pair.Key == id)
             {
                 text.color = Color.green;
+            }
+            else if (pair.Key == teamMate)
+            {
+                text.color = Color.blue;
             }
             else
             {
@@ -77,7 +81,9 @@ public class SModUIs : SubModBase
         {
             GameObject dogTag;
             dogTags.TryGetValue(pair.Key, out dogTag);
-            var v3 = pair.Value.position;
+            Transform dtPos;
+            dotTagPos.TryGetValue(pair.Key, out dtPos);
+            var v3 = dtPos.position;
             Vector2 pt = Camera.main.WorldToScreenPoint(v3);
             RectTransform rect = dogTag.transform as RectTransform;
             rect.pivot = new Vector2(0, 0);
