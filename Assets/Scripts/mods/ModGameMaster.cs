@@ -36,6 +36,9 @@ public class ModGameMaster : ModBase
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            MSMain.inited = false;
+            Cursor.visible = true;
+		    Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene(0);
         }
     }

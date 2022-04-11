@@ -14,18 +14,22 @@ public class MSCamera : MonoBehaviour
         controller = new ModControl(this);
         MSMain.modControl = controller;
         MSMain.modGameMaster = gameMaster;
+        MSMain.netWorker = netWorker;
         gameMaster.Start();
-        netWorker.Start();
     }
 
     void Update()
     {   
+        if (!MSMain.single)
+        {
+            netWorker.Update();
+        }
+
         if (!MSMain.inited)
         {
             return;
         }
 
-        netWorker.Update();
         gameMaster.Update();
         controller.Update();
     }

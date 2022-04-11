@@ -26,6 +26,7 @@ public class SModUIs : SubModBase
     public void WaitJoin() 
     {
         GameObject.Find("Start").SetActive(false);
+        GameObject.Find("StartSingle").SetActive(false);
         GameObject.Find("Quit").SetActive(false);
         var waitingText = GameObject.Find("WaitingText");
         var text = waitingText.GetComponent<Text>();

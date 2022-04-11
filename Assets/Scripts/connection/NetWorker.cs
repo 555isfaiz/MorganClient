@@ -21,6 +21,12 @@ public class MSNetWorker : ModBase
 
     public override void StartOverride()
     {
+        if (MSMain.single)
+        {
+            MSMain.func_SendMsg = (MSMessageBase msg) => {};
+            return;
+        }
+
         IPAddress ip = IPAddress.Parse("127.0.0.1");
         s.Connect(new IPEndPoint(ip, 13139));
         ts = new ThreadStart(UpdateOverride);

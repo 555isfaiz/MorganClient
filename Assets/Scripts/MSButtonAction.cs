@@ -13,6 +13,11 @@ public class MSButtonAction : MonoBehaviour
         MSMain.Login();
     }
 
+    public void OnClickStartSingle()
+    {
+        MSMain.StartSingle();
+    }
+
     public void OnClickQuit()
     {
         MSMain.Quit();

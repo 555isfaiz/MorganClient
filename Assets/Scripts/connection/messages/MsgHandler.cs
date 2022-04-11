@@ -40,6 +40,7 @@ public class MsgHandler : SubModBase
     void handle(MSMessageBase msg)
     {
         int id = MSMessageBase.GetMessageId(msg);
+        Debug.Log("in message, id=" + id);
         switch (id)
         {
             case 1003:
