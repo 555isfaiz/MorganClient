@@ -47,6 +47,11 @@ public class ModControl : ModBase
     {
         long now = Utils.GetTimeMilli();
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MSMain.Reset();
+        }
+
         // MOVE W
         if (Input.GetKeyDown(KeyCode.W))
         {

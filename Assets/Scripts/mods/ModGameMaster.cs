@@ -28,19 +28,7 @@ public class ModGameMaster : ModBase
 
     public override void UpdateOverride()
     {
-        // var controller = GetOwner()
-        // if (MSShare.modControl.TryExecuteCommand(ModControl.Command.SWITCH_LOCK))
-        // {
-        //     switchLock();
-        // }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MSMain.inited = false;
-            Cursor.visible = true;
-		    Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene(0);
-        }
+        
     }
 
     public override void StopOverride(){}

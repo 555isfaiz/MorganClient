@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MSMain
 {
@@ -56,6 +57,14 @@ public class MSMain
     public static void Quit() 
     {
         Application.Quit();
+    }
+
+    public static void Reset()
+    {
+        MSMain.inited = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene(0);
     }
 
     public static void GameJoined(int side, int gameSession, List<BPlayer> players)
