@@ -72,8 +72,13 @@ public class Utils
 
     public static long GetTimeMilli()
     {
+        return GetTimeMilli(false);
+    }
+
+    public static long GetTimeMilli(bool withServerZoneOffset)
+    {
         long currentTicks = DateTime.Now.Ticks;
-        DateTime dtFrom = new DateTime(1970, 1, 1, 8, 0, 0, 0);
+        DateTime dtFrom = withServerZoneOffset ? new DateTime(1970, 1, 1, (int)MSGlobalParams.serverTimeZoneOffset / 3600000, 0, 0, 0) : new DateTime(1970, 1, 1, 0, 0, 0, 0);
         return (currentTicks - dtFrom.Ticks) / 10000;
     }
 }

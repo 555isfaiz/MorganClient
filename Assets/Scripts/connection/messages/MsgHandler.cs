@@ -91,6 +91,7 @@ public class MsgHandler : SubModBase
     void OnSCLogin(SCLogin msg)
     {
         GameMaster().SetMyId(msg.playerId);
+        MSGlobalParams.serverTimeZoneOffset = msg.serverTimeZone;
     }
 
     void OnSCMove(SCMove msg)

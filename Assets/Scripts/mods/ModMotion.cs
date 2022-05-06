@@ -268,7 +268,7 @@ public class ModMotion : ModBase
         msg.direction.x = direction.x;
         msg.direction.y = direction.y;
         msg.direction.z = direction.z;
-        msg.timeStamp = Utils.GetTimeMilli();
+        msg.timeStamp = Utils.GetTimeMilli(true);
         return msg;
     }
 

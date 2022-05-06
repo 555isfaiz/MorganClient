@@ -16,4 +16,6 @@ class MSGlobalParams
     public static int keyCleanDelay = 30;
     
     public static float bottomLimitAngle = 90;//the limit angle
+
+    public static long serverTimeZoneOffset = 0;
 }
