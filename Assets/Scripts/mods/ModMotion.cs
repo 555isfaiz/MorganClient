@@ -154,6 +154,7 @@ public class ModMotion : ModBase
         {
             CSJump csjump = new CSJump();
             csjump.playerId = MSMain.mainPlayerId;
+            csjump.jumpStart = Utils.GetTimeMilli(true);
             MSMain.func_SendMsg(csjump);
             StartJump();
         }
