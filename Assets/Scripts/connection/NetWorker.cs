@@ -72,19 +72,27 @@ public class MSNetWorker : ModBase
     {
         while (start)
         {
-            byte[] buffer = new byte[1024];
-            int len = s.Receive(buffer);
-            while (len > 0)
+            try
             {
-                int packLen = Utils.BytesToInt(buffer) - 4;
-                byte[] msg = new byte[packLen];
-                Array.Copy(buffer, 4, msg, 0, packLen);
-                recvQ.Enqueue(msg);
-                len -= (packLen + 4);
-                if (len > 0)
+                byte[] buffer = new byte[1024];
+                int len = s.Receive(buffer);
+                while (len > 0)
                 {
-                    Array.Copy(buffer, packLen + 4, buffer, 0, len);
+                    int packLen = Utils.BytesToInt(buffer) - 4;
+                    byte[] msg = new byte[packLen];
+                    Array.Copy(buffer, 4, msg, 0, packLen);
+                    recvQ.Enqueue(msg);
+                    len -= (packLen + 4);
+                    if (len > 0)
+                    {
+                        Array.Copy(buffer, packLen + 4, buffer, 0, len);
+                    }
                 }
+            }
+            catch (ObjectDisposedException)
+            {
+                start = false;
+                break;
             }
         }
     }

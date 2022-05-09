@@ -56,11 +56,17 @@ public class MSMain
 
     public static void Quit() 
     {
+        // somehow, the "netWorker.Stop()" in MSCamera.OnDestory() will not be triggered
+        // doing this here saves my unity(ubuntu version) from freezing, although I dont know why...
+        netWorker.Stop();
         Application.Quit();
     }
 
     public static void Reset()
     {
+        // somehow, the "netWorker.Stop()" in MSCamera.OnDestory() will not be triggered
+        // doing this here saves my Unity(ubuntu version) from freezing, although I dont know why...
+        netWorker.Stop();
         MSMain.inited = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
