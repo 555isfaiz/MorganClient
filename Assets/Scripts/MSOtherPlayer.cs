@@ -5,6 +5,7 @@ using UnityEngine;
 public class MSOtherPlayer : MonoBehaviour
 {
     public ModMotion modMotion;
+    public ModWeapon modWeapon;
     public ModGameObject modGameObj {get; set;}
     public int playerId { get; set; }
     public string playerName { get; set; }
@@ -15,14 +16,17 @@ public class MSOtherPlayer : MonoBehaviour
         acceptSync = true;
         modGameObj = new ModGameObject(this);
         modMotion = new ModMotion(this, gameObject);
+        modWeapon = new ModWeapon(this, gameObject);
         modGameObj.Start();
         modMotion.Start();
+        modWeapon.Start();
     }
 
     void Update()
     {
         modGameObj.Update();
         modMotion.Update();
+        modWeapon.Update();
     }
 
     void OnCollisionEnter(Collision collision)

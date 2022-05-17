@@ -11,7 +11,7 @@ class MSGlobalParams
 
     public static float fixedHeight = 1.3f;
 
-    public static float speed = 5;
+    public static float cameraMoveSpeed = 10;
 
     public static int keyCleanDelay = 30;
     

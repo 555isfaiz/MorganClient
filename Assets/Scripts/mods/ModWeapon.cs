@@ -9,16 +9,15 @@ public class ModWeapon : ModBase
     SModFirearms firearm_main;
     SModFirearms firearm_1;
     SModFirearms firearm_2;
-    Dictionary<string, SModFirearms> firearms_all = new Dictionary<string, SModFirearms>();
 
     public ModWeapon(MonoBehaviour owner, GameObject go) : base(owner) 
     {
         player = go; 
-        
+
         SModFirearms autoRifle = new FMAutoRifle(this);
         SModFirearms bazooka = new FMBazooka(this);
-        firearms_all.Add("autoRifle", autoRifle);
-        firearms_all.Add("bazooka", bazooka);
+        AddSubMod("autoRifle", autoRifle);
+        AddSubMod("bazooka", bazooka);
 
         firearm_main = firearm_1 = autoRifle;
         firearm_2 = bazooka;
@@ -55,7 +54,7 @@ public class ModWeapon : ModBase
 
     public void Zoom()
     {
-
+        Debug.Log("Zoom!");
     }
 
     public void Unzoom()

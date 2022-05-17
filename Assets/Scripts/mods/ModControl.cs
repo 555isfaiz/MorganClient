@@ -231,9 +231,9 @@ public class ModControl : ModBase
 		}
 
 		//Rotate Horizontal
-		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f) ,player.transform.up, MSGlobalParams.speed * fMouseX);
+		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f) ,player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
 		//Rotate Vertical
-		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.speed * fMouseY);
+		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.cameraMoveSpeed * fMouseY);
 		//distance Control
 		dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         camera.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
