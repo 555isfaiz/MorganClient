@@ -7,13 +7,13 @@ public abstract class SubModBase
         this.owner = owner;
     }
 
-    public abstract void Start();
+    public virtual void Start() {}
 
-    public abstract void Update();
+    public virtual void Update() {}
 
     public virtual void FixedUpdate() {}
 
-    public abstract void Stop();
+    public virtual void Stop() {}
 
     public ModBase GetOwner()
     {

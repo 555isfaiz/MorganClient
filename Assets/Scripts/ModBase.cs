@@ -22,7 +22,7 @@ public abstract class ModBase
         }
     }
 
-    public abstract void StartOverride();
+    public virtual void StartOverride() {}
 
     public virtual void Update()
     {
@@ -46,7 +46,7 @@ public abstract class ModBase
 
     public virtual void FixedUpdateOverride() {}
 
-    public abstract void UpdateOverride();
+    public virtual void UpdateOverride() {}
 
     public void Stop()
     {
@@ -58,7 +58,7 @@ public abstract class ModBase
         }
     }
 
-    public abstract void StopOverride();
+    public virtual void StopOverride() {}
 
     public MonoBehaviour GetOwner()
     {

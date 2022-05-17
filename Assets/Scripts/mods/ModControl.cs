@@ -16,6 +16,8 @@ public class ModControl : ModBase
         DASH_RIGHT,
         JUMP,
         SWITCH_LOCK,
+        FIRE_1,
+        FIRE_2,
     }
 
     GameObject player;
@@ -104,6 +106,24 @@ public class ModControl : ModBase
         if (Input.GetKeyDown(KeyCode.Space))
         {
             commands_[IndexOf(Command.JUMP)] = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            commands_[IndexOf(Command.FIRE_1)] = 1;
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            commands_[IndexOf(Command.FIRE_1)] = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            commands_[IndexOf(Command.FIRE_2)] = 1;
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            commands_[IndexOf(Command.FIRE_2)] = 0;
         }
 
         executor.Update(now);
