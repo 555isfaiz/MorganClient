@@ -57,14 +57,14 @@ public class ModGameMaster : ModBase
 
             if (p.playerId == mainPlayerId)
             {
-                mainPlayer.transform.position = new Vector3(p.curPos.x, 5f, p.curPos.z);
+                mainPlayer.transform.position = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
                 msHero.id = mainPlayerId;
                 msHero.playerName = p.playerName;
             }
             else
             {
                 var tmp = GameObject.Instantiate(go);
-                tmp.transform.position = new Vector3(p.curPos.x, 5f, p.curPos.z);
+                tmp.transform.position = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
                 this.otherPlayer.Add(p.playerId, tmp);
                 var msother = tmp.GetComponent<MSOtherPlayer>();
                 msother.playerId = p.playerId;

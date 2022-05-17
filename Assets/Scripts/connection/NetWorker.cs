@@ -64,8 +64,10 @@ public class MSNetWorker : ModBase
     public override void StopOverride()
     {
         start = false;
-        worker.Abort();
-        s.Close();
+        if (worker != null)
+            worker.Abort();
+        if (s != null)
+            s.Close();
     }
 
     public override void UpdateOverride()

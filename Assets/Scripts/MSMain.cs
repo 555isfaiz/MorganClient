@@ -47,9 +47,18 @@ public class MSMain
         p.side = 0;
         p.curPos = new BVector3();
         p.curPos.x = 0;
-        p.curPos.y = 0.7f;
+        p.curPos.y = 5.0f;
         p.curPos.z = 0;
+        BPlayer p1 = new BPlayer();
+        p1.playerId = 1;
+        p1.playerName = "player2";
+        p1.side = 1;
+        p1.curPos = new BVector3();
+        p1.curPos.x = 6;
+        p1.curPos.y = 0.7f;
+        p1.curPos.z = 0;
         players.Add(p);
+        players.Add(p1);
         modGameMaster.FireGameJoin(0, 0, players);
         modControl.FireGameJoin();
     }
