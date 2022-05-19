@@ -78,11 +78,10 @@ public class ModMotion : ModBase
 
     void UpdateDirection()
     {
-        GameObject camera = GameObject.FindWithTag("MainCamera");
-        var delta = go.transform.position - camera.transform.position;
-        forward = Utils.Unitlize(new Vector3(delta.x, 0, delta.z));
+        GameObject body = GameObject.FindWithTag("Body");
+        forward = Utils.Unitlize(new Vector3(body.transform.forward.x, 0, body.transform.forward.z));
         back = Vector3.Reflect(forward, forward);
-        right = Utils.Unitlize(new Vector3(delta.z, 0f, -delta.x));
+        right = Utils.Unitlize(new Vector3(body.transform.right.x, 0f, -body.transform.right.z));
         left = Vector3.Reflect(right, right);
     }
 
