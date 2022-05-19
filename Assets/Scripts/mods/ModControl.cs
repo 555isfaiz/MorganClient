@@ -24,6 +24,8 @@ public class ModControl : ModBase
 
     MonoBehaviour camera;
 
+    bool cameraZoom = false;
+
     public int[] commands_ = new int[50];        // 50 commands total, consider expand in future
 
     int[] commandBuff_ = new int[50];
@@ -31,6 +33,7 @@ public class ModControl : ModBase
     long nextFlush_;
 
 	float bottomLimit;//the cos value
+	float topLimit;//the cos value
 
     Vector3 dirVector;
 
@@ -110,20 +113,20 @@ public class ModControl : ModBase
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            commands_[IndexOf(Command.FIRE_1)] = 1;
+            commandBuff_[IndexOf(Command.FIRE_1)] = 1;
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            commands_[IndexOf(Command.FIRE_1)] = 0;
+            commandBuff_[IndexOf(Command.FIRE_1)] = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            commands_[IndexOf(Command.FIRE_2)] = 1;
+            commandBuff_[IndexOf(Command.FIRE_2)] = 1;
         }
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            commands_[IndexOf(Command.FIRE_2)] = 0;
+            commandBuff_[IndexOf(Command.FIRE_2)] = 0;
         }
 
         executor.Update(now);
@@ -136,7 +139,7 @@ public class ModControl : ModBase
 
     public override void FixedUpdateOverride()
     {
-        CameraMove();
+        RotateByMouse();
     }
 
     public override void StopOverride() {}
@@ -152,6 +155,7 @@ public class ModControl : ModBase
 		Cursor.lockState = CursorLockMode.Locked;
         dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
+        topLimit = Mathf.Cos(MSGlobalParams.topLimitAngle / 180 * Mathf.PI);
     }
 
     void MoveCommand(Command command) 
@@ -204,7 +208,12 @@ public class ModControl : ModBase
         }
 
         // clean every commands except MOVE commands
-        if (command != Command.MOVE_FORWARD && command != Command.MOVE_BACKWARD && command != Command.MOVE_LEFT && command != Command.MOVE_RIGHT)
+        if (command != Command.MOVE_FORWARD 
+            && command != Command.MOVE_BACKWARD 
+            && command != Command.MOVE_LEFT 
+            && command != Command.MOVE_RIGHT
+            && command != Command.FIRE_1
+            && command != Command.FIRE_2)
         {
             commands_[index] = 0;
         }
@@ -212,7 +221,7 @@ public class ModControl : ModBase
         return true;
     } 
 
-    void CameraMove()
+    void RotateByMouse()
     {
         // var posv3 = new Vector3(camera.transform.position.x, MSGlobalParams.fixedHeight + player.transform.position.y, camera.transform.position.z);
 
@@ -229,14 +238,28 @@ public class ModControl : ModBase
 				fMouseY = 0;
 			}
 		}
+        if (Vector3.Dot(-dirVector.normalized, -player.transform.up.normalized) < -topLimit) 
+        {
+			if (fMouseY < 0) 
+            {
+				fMouseY = 0;
+			}
+		}
 
+        Vector3 rotateBias;
+        if (cameraZoom) rotateBias = new Vector3(0f, 1.3f, 0f);
+        else rotateBias = new Vector3(0f, 0.0f, 0f);
 		//Rotate Horizontal
-		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f) ,player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
+		camera.transform.RotateAround(player.transform.position + rotateBias ,player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
 		//Rotate Vertical
-		camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.cameraMoveSpeed * fMouseY);
+		camera.transform.RotateAround(player.transform.position + rotateBias, -VerticalRotateAxis(dirVector), MSGlobalParams.cameraMoveSpeed * fMouseY);
+        // player.GetComponentInChildren<>();
+        GameObject body = GameObject.FindGameObjectWithTag("Body");
+        body.transform.Rotate(new Vector3(-MSGlobalParams.cameraMoveSpeed * fMouseY, MSGlobalParams.cameraMoveSpeed * fMouseX, 0));
 		//distance Control
 		dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         camera.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
+        body.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
     }
 
     Vector3 VerticalRotateAxis(Vector3 dirVector){
@@ -261,4 +284,19 @@ public class ModControl : ModBase
 		// Debug.Log (rotateAxis);
 		return rotateAxis;
 	}
+
+    public void SetCameraZoom(bool isZoom)
+    {
+        Debug.Log("isZoom: " + isZoom);
+        // if (!cameraZoom && isZoom)
+        // {
+
+        //     camera.transform.position = ;
+        // }
+        // else if (cameraZoom && !isZoom)
+        // {
+
+        // }
+        cameraZoom = isZoom;
+    }
 }
