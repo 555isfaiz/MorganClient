@@ -268,28 +268,35 @@ public class ModControl : ModBase
         // rotate body
         GameObject body = GameObject.FindGameObjectWithTag("Body");
         GameObject shoot = GameObject.FindGameObjectWithTag("ShootPoint");
-        // something wrong here
-        body.transform.Rotate(new Vector3(-MSGlobalParams.cameraMoveSpeed * fMouseY, MSGlobalParams.cameraMoveSpeed * fMouseX, 0));
+        GameObject cameraPoint = GameObject.FindGameObjectWithTag("CameraPoint");
+        
+        // update body rotation
+        body.transform.RotateAround(player.transform.position, player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
+        body.transform.RotateAround(player.transform.position, body.transform.right, -MSGlobalParams.cameraMoveSpeed * fMouseY);
         body.transform.eulerAngles = new Vector3(body.transform.eulerAngles.x, body.transform.eulerAngles.y, 0);
+
+        // update shoot point position && rotation
         shoot.transform.RotateAround(player.transform.position, player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
         shoot.transform.RotateAround(player.transform.position, body.transform.right, -MSGlobalParams.cameraMoveSpeed * fMouseY);
         shoot.transform.eulerAngles = new Vector3(shoot.transform.eulerAngles.x, shoot.transform.eulerAngles.y, 0);
 
+        // update camera point position && rotation
+        cameraPoint.transform.RotateAround(player.transform.position, player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
+        cameraPoint.transform.RotateAround(player.transform.position, -VerticalRotateAxis(dirVector), MSGlobalParams.cameraMoveSpeed * fMouseY);
+        cameraPoint.transform.eulerAngles = new Vector3(cameraPoint.transform.eulerAngles.x, cameraPoint.transform.eulerAngles.y, 0);
+
         if (!cameraZoom)
         {
-            //Rotate Horizontal
-            camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f) ,player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
-            //Rotate Vertical
-            camera.transform.RotateAround(player.transform.position + new Vector3(0f, 1.3f, 0f), -VerticalRotateAxis(dirVector), MSGlobalParams.cameraMoveSpeed * fMouseY);
-            // player.GetComponentInChildren<>();
-            //distance Control
+            // not zooming... set to camera point
+            camera.transform.position = cameraPoint.transform.position;
+            camera.transform.rotation = cameraPoint.transform.rotation;
             dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         }
         else
         {
+            // zooming... set to shoot point
             camera.transform.position = shoot.transform.position;
-            camera.transform.RotateAround(player.transform.position, player.transform.up, MSGlobalParams.cameraMoveSpeed * fMouseX);
-            camera.transform.RotateAround(player.transform.position, body.transform.right, -MSGlobalParams.cameraMoveSpeed * fMouseY);
+            camera.transform.rotation = shoot.transform.rotation;
             dirVector = shoot.transform.forward;
         }
         camera.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
@@ -319,7 +326,6 @@ public class ModControl : ModBase
 
     public void SetCameraZoom(bool isZoom)
     {
-        Debug.Log("isZoom: " + isZoom);
         if (!cameraZoom && isZoom)
         {
             // topLimit = -topLimit;

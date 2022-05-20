@@ -81,7 +81,7 @@ public class ModMotion : ModBase
         GameObject body = GameObject.FindWithTag("Body");
         forward = Utils.Unitlize(new Vector3(body.transform.forward.x, 0, body.transform.forward.z));
         back = Vector3.Reflect(forward, forward);
-        right = Utils.Unitlize(new Vector3(body.transform.right.x, 0f, -body.transform.right.z));
+        right = Utils.Unitlize(new Vector3(body.transform.right.x, 0f, body.transform.right.z));
         left = Vector3.Reflect(right, right);
     }
 
