@@ -1,4 +1,6 @@
-[AttributeUsage(AttributeTargets.method)]
+using System;
+
+[AttributeUsage(AttributeTargets.Method)]
 public class AttrModEvent : Attribute
 {
     private string EventName;
