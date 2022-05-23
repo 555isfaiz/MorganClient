@@ -12,7 +12,7 @@ public class SModUIs : SubModBase
 
     public static string modName = "SModUIs";
 
-    public SModUIs(ModBase owner, GameObject canvas) : base(owner) { this.canvas = canvas; }
+    public SModUIs(ModBase owner, GameObject canvas) : base(owner, "SModUIs") { this.canvas = canvas; }
 
     public override void Start() {}
 
@@ -89,5 +89,13 @@ public class SModUIs : SubModBase
             rect.pivot = new Vector2(0, 0);
             rect.position = pt;
         }
+    }
+
+    [AttrModEvent("CameraZoom")]
+    public void OnCameraZoom(Param param)
+    {
+        object test;
+        param.Get("test", out test);
+        Debug.Log("event test! " + test);
     }
 }

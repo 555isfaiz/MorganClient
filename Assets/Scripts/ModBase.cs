@@ -1,20 +1,27 @@
 using System.Collections.Generic;
+using System;
+using System.Reflection;
 using UnityEngine;
 
 public abstract class ModBase
 {
     MonoBehaviour owner;
+    string ModName;
 
     protected Dictionary<string, SubModBase> subMods = new Dictionary<string, SubModBase>();
 
-    public ModBase(MonoBehaviour owner)
+    public ModBase(MonoBehaviour owner, string modName)
     {
         this.owner = owner;
+        this.ModName = modName;
     }
 
+    // Remember to call Start() for every Mods!!!!!!
     public void Start()
     {
         StartOverride();
+
+        MSMain.AddListeners(this.CollectEventListeners());
 
         foreach (var p in subMods)
         {
@@ -128,5 +135,53 @@ public abstract class ModBase
         {
             p.Value.OnEventGameQuit(args);
         }
+    }
+
+    public Dictionary<string, List<MSEventListener>> CollectEventListeners()
+    {
+        Dictionary<string, List<MSEventListener>> collection = new Dictionary<string, List<MSEventListener>>();
+        Type t = this.GetType();
+        foreach (MethodInfo m in t.GetMethods())
+        {
+            AttrModEvent attr = m.GetCustomAttribute<AttrModEvent>();
+            if (attr == null) continue;
+
+            string eventName = attr.GetEventName();
+            Action<Param> func = (Action<Param>)Delegate.CreateDelegate(typeof(Action<Param>), null, m);
+
+            MSEventListener listener = new MSEventListener(eventName, ModName, func);
+
+            List<MSEventListener> list;
+            if (collection.TryGetValue(eventName, out list))
+            {
+                list.Add(listener);
+            }
+            else 
+            {
+                list = new List<MSEventListener>();
+                list.Add(listener);
+                collection.Add(eventName, list);
+            }
+        }
+
+        foreach (var pair in subMods)
+        {
+            var dict = pair.Value.CollectEventListeners();
+            foreach (var ppair in dict)
+            {
+                List<MSEventListener> list;
+                if (collection.TryGetValue(ppair.Key, out list))
+                {
+                    list.Add(ppair.Value);
+                }
+                else 
+                {
+                    list = new List<MSEventListener>();
+                    list.Add(ppair.Value);
+                    collection.Add(ppair.Key, list);
+                }
+            }
+        }
+        return collection;
     }
 }

@@ -19,7 +19,7 @@ public class ModMotion : ModBase
     bool controlable;
     int lastErrorCode = 0;
 
-    public ModMotion(MonoBehaviour owner, GameObject go) : base(owner)
+    public ModMotion(MonoBehaviour owner, GameObject go) : base(owner, "ModMotion")
     {
         this.go = go;
         if (owner is MSHero)

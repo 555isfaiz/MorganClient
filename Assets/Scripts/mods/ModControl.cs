@@ -39,7 +39,7 @@ public class ModControl : ModBase
 
     MSSimpleExecutor executor = new MSSimpleExecutor();
 
-    public ModControl(MonoBehaviour owner) : base(owner) { nextFlush_ = Utils.GetTimeMilli(); }
+    public ModControl(MonoBehaviour owner) : base(owner, "ModControl") { nextFlush_ = Utils.GetTimeMilli(); }
 
     public override void StartOverride() 
     {
@@ -228,7 +228,7 @@ public class ModControl : ModBase
 		float fMouseY = Input.GetAxis("Mouse Y");
  
         var dot = Vector3.Dot(-dirVector.normalized, -player.transform.up.normalized);
-        Debug.Log("dot: " + dot + " bottom: " + bottomLimit + " top: " + -topLimit + " y: " + fMouseY);
+        // Debug.Log("dot: " + dot + " bottom: " + bottomLimit + " top: " + -topLimit + " y: " + fMouseY);
 		//avoid dithering
         if (cameraZoom)
         {

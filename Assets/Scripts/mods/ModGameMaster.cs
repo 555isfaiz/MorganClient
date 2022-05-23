@@ -13,7 +13,7 @@ public class ModGameMaster : ModBase
     MSHero msHero;
     Dictionary<int, MSOtherPlayer> msOther = new Dictionary<int, MSOtherPlayer>();
     
-    public ModGameMaster(MonoBehaviour owner, GameObject mainPlayer) : base(owner)
+    public ModGameMaster(MonoBehaviour owner, GameObject mainPlayer) : base(owner, "ModGameMaster")
     {
         this.mainPlayer = mainPlayer;
         msHero = mainPlayer.GetComponent<MSHero>();

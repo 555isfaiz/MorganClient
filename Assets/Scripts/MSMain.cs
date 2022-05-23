@@ -12,9 +12,26 @@ public class MSMain
     public static ModGameMaster modGameMaster;
     public static MSNetWorker netWorker;
 
+    public static MSEventManager eventManager = new MSEventManager();
+
     public static bool single = true;
     // for shooting demo
     public static bool inited = false;
+
+    public static void AddListeners(Dictionary<string, List<MSEventListener>> listeners)
+    {
+        eventManager.AddListeners(listeners);
+    }
+
+    public static void FireEvent(string EventName, Param param)
+    {
+        FireEvent(EventName, null, param);
+    }
+
+    public static void FireEvent(string EventName, string ModName, Param param)
+    {
+        eventManager.FireEvent(EventName, ModName, param);
+    }
 
     static void Init() 
     {
@@ -61,6 +78,7 @@ public class MSMain
         players.Add(p1);
         modGameMaster.FireGameJoin(0, 0, players);
         modControl.FireGameJoin();
+        FireEvent("CameraZoom", new Param("test", "ttttt"));
     }
 
     public static void Quit() 

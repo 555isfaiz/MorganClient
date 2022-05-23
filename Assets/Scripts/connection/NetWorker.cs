@@ -13,7 +13,7 @@ public class MSNetWorker : ModBase
     ThreadStart ts;
     OutputStream outs = new OutputStream();
     public ConcurrentQueue<byte[]> recvQ;
-    public MSNetWorker(MonoBehaviour owner) : base(owner)
+    public MSNetWorker(MonoBehaviour owner) : base(owner, "MSNetWorker")
     {
         s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         recvQ = new ConcurrentQueue<byte[]>();

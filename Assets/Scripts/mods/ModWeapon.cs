@@ -10,7 +10,7 @@ public class ModWeapon : ModBase
     SModFirearms firearm_1;
     SModFirearms firearm_2;
 
-    public ModWeapon(MonoBehaviour owner, GameObject go) : base(owner) 
+    public ModWeapon(MonoBehaviour owner, GameObject go) : base(owner, "ModWeapon") 
     {
         player = go; 
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ModGameObject : ModBase
 {
     // hp gauge.. attack point.. damage cal..
-    public ModGameObject(MonoBehaviour owner) : base(owner)
+    public ModGameObject(MonoBehaviour owner) : base(owner, "ModGameObject")
     {}
 
     public override void StartOverride()

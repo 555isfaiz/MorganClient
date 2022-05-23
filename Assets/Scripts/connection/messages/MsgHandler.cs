@@ -7,7 +7,7 @@ public class MsgHandler : SubModBase
 
     public static string modName = "MsgHandler";
 
-    public MsgHandler(ModBase owner) : base(owner){}
+    public MsgHandler(ModBase owner) : base(owner, "MsgHandler"){}
 
     public override void Start(){}
 
