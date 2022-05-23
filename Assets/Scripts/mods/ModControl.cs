@@ -149,7 +149,8 @@ public class ModControl : ModBase
         return (int)command;
     }
 
-    protected override void OnEventGameJoin(params object[] args)
+    [AttrModEvent("GameJoin")]
+    public void OnEventGameJoin(Param args)
     {
         Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;

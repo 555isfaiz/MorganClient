@@ -36,6 +36,13 @@ public class Param
         objs.TryGetValue(name, out obj);
     }
 
+    public void Get<T>(string name, out T obj)
+    {
+        object o;
+        objs.TryGetValue(name, out o);
+        obj = (T)o;
+    }
+
     public Dictionary<string, object> GetOjbs()
     {
         return objs;

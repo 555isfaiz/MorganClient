@@ -76,9 +76,7 @@ public class MSMain
         p1.curPos.z = 0;
         players.Add(p);
         players.Add(p1);
-        modGameMaster.FireGameJoin(0, 0, players);
-        modControl.FireGameJoin();
-        FireEvent("CameraZoom", new Param("test", "ttttt"));
+        FireEvent("GameJoin", new Param("myside", 0, "lastGameSession", 0, "players", players));
     }
 
     public static void Quit() 
@@ -103,7 +101,6 @@ public class MSMain
     public static void GameJoined(int side, int gameSession, List<BPlayer> players)
     {
         inited = true;
-        modGameMaster.FireGameJoin(side, gameSession, players);
-        modControl.FireGameJoin();
+        FireEvent("GameJoin", new Param("myside", side, "lastGameSession", gameSession, "players", players));
     }
 }

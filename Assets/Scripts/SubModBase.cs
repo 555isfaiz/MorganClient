@@ -26,11 +26,6 @@ public abstract class SubModBase
         return owner;
     }
 
-    public virtual void OnEventGameInit(params object[] args) {}
-    public virtual void OnEventGameJoin(params object[] args) {}
-    public virtual void OnEventGameEnd(params object[] args) {}
-    public virtual void OnEventGameQuit(params object[] args) {}
-
     public Dictionary<string, MSEventListener> CollectEventListeners()
     {
         Dictionary<string, MSEventListener> collection = new Dictionary<string, MSEventListener>();
@@ -41,7 +36,7 @@ public abstract class SubModBase
             if (attr == null) continue;
 
             string eventName = attr.GetEventName();
-            Action<Param> func = (Action<Param>)Delegate.CreateDelegate(typeof(Action<Param>), null, m);
+            Action<Param> func = (Action<Param>)Delegate.CreateDelegate(typeof(Action<Param>), this, m);
 
             MSEventListener listener = new MSEventListener(eventName, ModName, func);
             collection.Add(eventName, listener);

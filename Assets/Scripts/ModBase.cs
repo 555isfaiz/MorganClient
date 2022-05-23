@@ -89,54 +89,6 @@ public abstract class ModBase
         return subMod;
     } 
 
-    protected virtual void OnEventGameInit(params object[] args) {}
-
-    public void FireGameInit(params object[] args)
-    {
-        OnEventGameInit(args);
-
-        foreach (var p in subMods)
-        {
-            p.Value.OnEventGameInit(args);
-        }
-    }
-
-    protected virtual void OnEventGameJoin(params object[] args) {}
-
-    public void FireGameJoin(params object[] args) 
-    {
-        OnEventGameJoin(args);
-
-        foreach (var p in subMods)
-        {
-            p.Value.OnEventGameJoin(args);
-        }
-    }
-
-    protected virtual void OnEventGameEnd(params object[] args) {}
-
-    public void FireGameEnd(params object[] args) 
-    {
-        OnEventGameEnd(args);
-
-        foreach (var p in subMods)
-        {
-            p.Value.OnEventGameEnd(args);
-        }
-    }
-
-    protected virtual void OnEventGameQuit(params object[] args) {}
-
-    public void FireGameQuit(params object[] args) 
-    {
-        OnEventGameQuit(args);
-        
-        foreach (var p in subMods)
-        {
-            p.Value.OnEventGameQuit(args);
-        }
-    }
-
     public Dictionary<string, List<MSEventListener>> CollectEventListeners()
     {
         Dictionary<string, List<MSEventListener>> collection = new Dictionary<string, List<MSEventListener>>();
@@ -147,7 +99,7 @@ public abstract class ModBase
             if (attr == null) continue;
 
             string eventName = attr.GetEventName();
-            Action<Param> func = (Action<Param>)Delegate.CreateDelegate(typeof(Action<Param>), null, m);
+            Action<Param> func = (Action<Param>)Delegate.CreateDelegate(typeof(Action<Param>), this, m);
 
             MSEventListener listener = new MSEventListener(eventName, ModName, func);
 

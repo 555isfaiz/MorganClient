@@ -5,6 +5,7 @@ public class MSEventListener
     public string EventName_;
     public string ModName_;
     public Action<Param> Func_;
+    object instance;
 
     public MSEventListener(string EventName, string ModName, Action<Param> func)
     {

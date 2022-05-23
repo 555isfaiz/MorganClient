@@ -40,12 +40,16 @@ public class ModGameMaster : ModBase
     }
 
     // using myside to tell if I am shooter or target
-    protected override void OnEventGameJoin(params object[] args)
+    [AttrModEvent("GameJoin")]
+    public void OnEventGameJoin(Param args)
     {
-        int myside = (int)args[0];
-        int lastGameSession = (int)args[1];
-        List<BPlayer> players = args[2] as List<BPlayer>;
-        this.lastGameSession = lastGameSession;
+        int myside;
+        int session;
+        List<BPlayer> players;
+        args.Get("myside", out myside);
+        args.Get("lastGameSession", out session);
+        args.Get("players", out players);
+        this.lastGameSession = session;
         MSMain.currentSessionId = lastGameSession;
         GameObject go =  Resources.Load("OtherPlayer") as GameObject;
         foreach (var p in players)

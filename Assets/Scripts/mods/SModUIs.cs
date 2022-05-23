@@ -33,7 +33,8 @@ public class SModUIs : SubModBase
         text.text = string.Format("waiting for players to join...");
     }
 
-    public override void OnEventGameJoin(params object[] args)
+    [AttrModEvent("GameJoin")]
+    public void OnEventGameJoin(Param args)
     {
         GameObject.Find("WaitingText").SetActive(false);
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();
