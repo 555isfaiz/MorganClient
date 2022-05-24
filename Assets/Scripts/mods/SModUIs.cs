@@ -95,8 +95,6 @@ public class SModUIs : SubModBase
     [AttrModEvent("CameraZoom")]
     public void OnCameraZoom(Param param)
     {
-        object test;
-        param.Get("test", out test);
-        Debug.Log("event test! " + test);
+        
     }
 }

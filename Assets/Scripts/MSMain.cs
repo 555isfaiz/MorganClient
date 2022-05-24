@@ -23,6 +23,11 @@ public class MSMain
         eventManager.AddListeners(listeners);
     }
 
+    public static void FireEvent(string EventName, params object[] objects)
+    {
+        FireEvent(EventName, null, new Param(objects));
+    }
+
     public static void FireEvent(string EventName, Param param)
     {
         FireEvent(EventName, null, param);
@@ -76,7 +81,7 @@ public class MSMain
         p1.curPos.z = 0;
         players.Add(p);
         players.Add(p1);
-        FireEvent("GameJoin", new Param("myside", 0, "lastGameSession", 0, "players", players));
+        FireEvent("GameJoin", "myside", 0, "lastGameSession", 0, "players", players);
     }
 
     public static void Quit() 
