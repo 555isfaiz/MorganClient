@@ -58,4 +58,9 @@ public class MSEventManager
     {
         FireEvent(EventName, null, param);
     }
+
+    public void ClearListeners()
+    {
+        listeners.Clear();
+    }
 }

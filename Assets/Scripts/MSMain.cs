@@ -96,6 +96,7 @@ public class MSMain
     {
         // somehow, the "netWorker.Stop()" in MSCamera.OnDestory() will not be triggered
         // doing this here saves my Unity(ubuntu version) from freezing, although I dont know why...
+        eventManager.ClearListeners();
         netWorker.Stop();
         MSMain.inited = false;
         Cursor.visible = true;
