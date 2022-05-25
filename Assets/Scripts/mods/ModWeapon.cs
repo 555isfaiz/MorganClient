@@ -25,6 +25,7 @@ public class ModWeapon : ModBase
 
     public override void UpdateOverride()
     {
+        if (GetOwner() is MSOtherPlayer) return;
         if (firearm_main == null) return;
 
         bool do_fire_1 = MSMain.modControl.TryExecuteCommand(ModControl.Command.FIRE_1);
@@ -55,10 +56,12 @@ public class ModWeapon : ModBase
     public void Zoom()
     {
         MSMain.modControl.SetCameraZoom(true);
+        MSMain.FireEvent("CameraZoom");
     }
 
     public void Unzoom()
     {
         MSMain.modControl.SetCameraZoom(false);
+        MSMain.FireEvent("CameraUnzoom");
     }
 }

@@ -6,6 +6,8 @@ public class SModUIs : SubModBase
 {
     GameObject canvas;
 
+    GameObject aimPoint;
+
     Dictionary<int, GameObject> dogTags = new Dictionary<int, GameObject>();
 
     Dictionary<int, Transform> dotTagPos = new Dictionary<int, Transform>();
@@ -14,7 +16,11 @@ public class SModUIs : SubModBase
 
     public SModUIs(ModBase owner, GameObject canvas) : base(owner, "SModUIs") { this.canvas = canvas; }
 
-    public override void Start() {}
+    public override void Start() 
+    {
+        aimPoint = GameObject.Find("AimPoint");
+        aimPoint.SetActive(false);
+    }
 
     public override void Update() 
     {
@@ -95,6 +101,18 @@ public class SModUIs : SubModBase
     [AttrModEvent("CameraZoom")]
     public void OnCameraZoom(Param param)
     {
-        
+        GameObject myDogTag;
+        dogTags.TryGetValue(MSMain.mainPlayerId, out myDogTag);
+        myDogTag.SetActive(false);
+        aimPoint.SetActive(true);
+    }
+
+    [AttrModEvent("CameraUnzoom")]
+    public void OnCameraUnzoom(Param param)
+    {
+        GameObject myDogTag;
+        dogTags.TryGetValue(MSMain.mainPlayerId, out myDogTag);
+        myDogTag.SetActive(true);
+        aimPoint.SetActive(false);
     }
 }
