@@ -301,6 +301,17 @@ public class ModControl : ModBase
             dirVector = shoot.transform.forward;
         }
         camera.transform.eulerAngles = new Vector3(camera.transform.eulerAngles.x, camera.transform.eulerAngles.y, 0);
+
+        // sync player rotation
+        CSPlayerRotate csRotat = new CSPlayerRotate();
+        csRotat.playerId = MSMain.mainPlayerId;
+        csRotat.rotation = new BVector4();
+        csRotat.rotation.x = body.transform.rotation.x;
+        csRotat.rotation.y = body.transform.rotation.y;
+        csRotat.rotation.z = body.transform.rotation.z;
+        csRotat.rotation.w = body.transform.rotation.w;
+        csRotat.timeStamp = Utils.GetTimeMilli(true);
+        MSMain.func_SendMsg(csRotat);
     }
 
     Vector3 VerticalRotateAxis(Vector3 dirVector){

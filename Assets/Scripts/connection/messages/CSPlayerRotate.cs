@@ -1,34 +1,28 @@
 using System.Collections.Generic;
-public class BPlayer : MSMessageBase
+public class CSPlayerRotate : MSMessageBase
 {
     public int playerId;
-    public string playerName;
-    public int side;
-    public BVector3 curPos;
     public BVector4 rotation;
+    public long timeStamp;
 
-    public BPlayer()
+    public CSPlayerRotate()
     {
-        id = 101;
+        id = 2008;
     }
 
     public override void write(OutputStream output)
     {
         output.write<int>(playerId);
-        output.write<string>(playerName);
-        output.write<int>(side);
-        output.write<BVector3>(curPos);
         output.write<BVector4>(rotation);
+        output.write<long>(timeStamp);
 
     }
 
     public override void read(InputStream input)
     {
         playerId = input.read<int>();
-        playerName = input.read<string>();
-        side = input.read<int>();
-        curPos = input.read<BVector3>();
         rotation = input.read<BVector4>();
+        timeStamp = input.read<long>();
 
     }
 }

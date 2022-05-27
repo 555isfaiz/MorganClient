@@ -35,6 +35,10 @@ public abstract class MSMessageBase
         {
             return 2007;
         }
+        else if (msg is CSPlayerRotate)
+        {
+            return 2008;
+        }
         else if (msg is BVector2)
         {
             return 102;
@@ -42,6 +46,10 @@ public abstract class MSMessageBase
         else if (msg is BVector3)
         {
             return 103;
+        }
+        else if (msg is BVector4)
+        {
+            return 104;
         }
         else if (msg is BPlayer)
         {
@@ -100,12 +108,20 @@ public abstract class MSMessageBase
                 msg = new SCDashStop();
                 break;
 
+            case 2008:
+                msg = new CSPlayerRotate();
+                break;
+
             case 102:
                 msg = new BVector2();
                 break;
 
             case 103:
                 msg = new BVector3();
+                break;
+
+            case 104:
+                msg = new BVector4();
                 break;
 
             case 101:

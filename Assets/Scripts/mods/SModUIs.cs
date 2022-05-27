@@ -91,6 +91,7 @@ public class SModUIs : SubModBase
             Transform dtPos;
             dotTagPos.TryGetValue(pair.Key, out dtPos);
             var v3 = dtPos.position;
+            v3.y += 0.3f;
             Vector2 pt = Camera.main.WorldToScreenPoint(v3);
             RectTransform rect = dogTag.transform as RectTransform;
             rect.pivot = new Vector2(0, 0);
