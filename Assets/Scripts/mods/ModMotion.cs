@@ -46,10 +46,7 @@ public class ModMotion : ModBase
             UpdateDirection();
             UpdatePosition();
         }
-        else
-        {
-            go.transform.rotation = new Quaternion();
-        }
+        
         DoJump();
         DoDash();
     }
@@ -296,6 +293,6 @@ public class ModMotion : ModBase
 
     public void OnSCJump()
     {
-        StartJump();
+        // StartJump();
     }
 }

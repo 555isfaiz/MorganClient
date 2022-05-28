@@ -100,10 +100,14 @@ public class ModGameMaster : ModBase
             var go = GetPlayer(p.playerId);
             Vector3 pos = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
             Quaternion rot = new Quaternion(p.rotation.x, p.rotation.y, p.rotation.z, p.rotation.w);
-            if (p.playerId != mainPlayerId && Vector3.Distance(pos, go.transform.position) > 0)
+            if (p.playerId != mainPlayerId)
             {
-                go.transform.position = pos;
                 go.transform.rotation = rot;
+                go.transform.eulerAngles = new Vector3(go.transform.eulerAngles.x, go.transform.eulerAngles.y, 0);
+                if (Vector3.Distance(pos, go.transform.position) > 0) 
+                {
+                    go.transform.position = pos;
+                }
             }
 
             // ...
