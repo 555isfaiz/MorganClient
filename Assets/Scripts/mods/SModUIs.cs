@@ -10,6 +10,8 @@ public class SModUIs : SubModBase
 
     Dictionary<int, GameObject> dogTags = new Dictionary<int, GameObject>();
 
+    Dictionary<int, GameObject> hpBars = new Dictionary<int, GameObject>();
+
     Dictionary<int, Transform> dotTagPos = new Dictionary<int, Transform>();
 
     public static string modName = "SModUIs";
@@ -24,7 +26,7 @@ public class SModUIs : SubModBase
 
     public override void Update() 
     {
-        FollowDogTag();
+        FollowUIs();
     }
 
     public override void Stop() {}
@@ -45,6 +47,7 @@ public class SModUIs : SubModBase
         GameObject.Find("WaitingText").SetActive(false);
         var players = ((ModGameMaster)GetOwner()).GetAllPlayer();
         GameObject dogTag =  Resources.Load("DogTag") as GameObject;
+        GameObject HPBar =  Resources.Load("HPBar") as GameObject;
         int id = MSMain.mainPlayerId;
         int teamMate = ((ModGameMaster)GetOwner()).teamMateId;
         foreach (var pair in players)
@@ -61,7 +64,9 @@ public class SModUIs : SubModBase
                 dogTagText += mso.playerName + " ID:" + mso.playerId;
             }
             var dt = GameObject.Instantiate(dogTag);
+            var hp = GameObject.Instantiate(HPBar);
             dt.transform.parent = canvas.transform;
+            hp.transform.parent = canvas.transform;
             var text = dt.GetComponent<Text>();
             text.text = dogTagText;
             if (pair.Key == id)
@@ -77,25 +82,37 @@ public class SModUIs : SubModBase
                 text.color = Color.red;
             }
             dogTags.Add(pair.Key, dt);
+            hpBars.Add(pair.Key, hp);
             var dtPos = pair.Value.GetComponentInChildren<Transform>();
             dotTagPos.Add(pair.Key, dtPos);
         }
     }
 
-    public void FollowDogTag()
+    public void FollowUIs()
     {
+        // dog tags and HP bar
         foreach (var pair in dotTagPos)
         {
+            Transform dtPos = pair.Value;
             GameObject dogTag;
             dogTags.TryGetValue(pair.Key, out dogTag);
-            Transform dtPos;
-            dotTagPos.TryGetValue(pair.Key, out dtPos);
+            GameObject hp;
+            hpBars.TryGetValue(pair.Key, out hp);
             var v3 = dtPos.position;
+
+            // dog tag position
             v3.y += 0.3f;
             Vector2 pt = Camera.main.WorldToScreenPoint(v3);
             RectTransform rect = dogTag.transform as RectTransform;
             rect.pivot = new Vector2(0, 0);
             rect.position = pt;
+
+            // hp bar position
+            v3.y += 0.2f;
+            Vector2 ppt = Camera.main.WorldToScreenPoint(v3);
+            RectTransform rrect = hp.transform as RectTransform;
+            rrect.pivot = new Vector2(0, 0);
+            rrect.position = pt;
         }
     }
 

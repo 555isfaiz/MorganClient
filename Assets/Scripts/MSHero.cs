@@ -35,5 +35,6 @@ public class MSHero : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         modMotion.OnCollisionEnter(collision);
+        modGameObj.OnCollisionEnter(collision);
     }
 }

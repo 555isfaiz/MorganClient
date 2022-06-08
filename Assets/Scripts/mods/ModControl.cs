@@ -152,8 +152,8 @@ public class ModControl : ModBase
     [AttrModEvent("GameJoin")]
     public void OnEventGameJoin(Param args)
     {
-        // Cursor.visible = false;
-		// Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
         dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
         topLimit = Mathf.Cos(MSGlobalParams.topLimitAngle / 180 * Mathf.PI);
@@ -250,6 +250,7 @@ public class ModControl : ModBase
         }
         else
         {
+            // something wrong here
             if (dot > bottomLimit) 
             {
                 if (fMouseY > 0) 

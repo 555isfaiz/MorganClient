@@ -15,8 +15,12 @@ class MSGlobalParams
 
     public static int keyCleanDelay = 30;
     
-    public static float bottomLimitAngle = 120;//the limit angle
+    public static float bottomLimitAngle = 150;//the limit angle
     public static float topLimitAngle = 10;//the limit angle
 
     public static long serverTimeZoneOffset = 0;
+    public static int HP_MAX = 100;
+    public static int Rifle_bullet_fly_speed = 10;
+    public static int Rifle_fire_frequency = 10;
+    public static float Rifle_reload_duration = 1;
 }

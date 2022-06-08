@@ -97,6 +97,7 @@ public class ModGameMaster : ModBase
                     continue;
                 }
             }
+            
             var go = GetPlayer(p.playerId);
             Vector3 pos = new Vector3(p.curPos.x, p.curPos.y, p.curPos.z);
             Quaternion rot = new Quaternion(p.rotation.x, p.rotation.y, p.rotation.z, p.rotation.w);
