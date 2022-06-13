@@ -33,6 +33,7 @@ public class ModControl : ModBase
     long nextFlush_;
 
 	float bottomLimit;//the cos value
+	float zoomBottomLimit;//the cos value
 	float topLimit;//the cos value
 
     Vector3 dirVector;
@@ -156,6 +157,7 @@ public class ModControl : ModBase
 		Cursor.lockState = CursorLockMode.Locked;
         dirVector = Vector3.Normalize(player.transform.position - camera.transform.position);
         bottomLimit = Mathf.Cos(MSGlobalParams.bottomLimitAngle / 180 * Mathf.PI);
+        zoomBottomLimit = Mathf.Cos(MSGlobalParams.zoomBottomLimitAngle / 180 * Mathf.PI);
         topLimit = Mathf.Cos(MSGlobalParams.topLimitAngle / 180 * Mathf.PI);
     }
 
@@ -233,7 +235,7 @@ public class ModControl : ModBase
 		//avoid dithering
         if (cameraZoom)
         {
-            if (dot < bottomLimit) 
+            if (dot < zoomBottomLimit) 
             {
                 if (fMouseY < 0) 
                 {
@@ -250,7 +252,6 @@ public class ModControl : ModBase
         }
         else
         {
-            // something wrong here
             if (dot > bottomLimit) 
             {
                 if (fMouseY > 0) 

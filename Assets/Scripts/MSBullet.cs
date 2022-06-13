@@ -16,7 +16,6 @@ public class MSBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collide!!!!!");
         Destroy(gameObject);
     }
 }
