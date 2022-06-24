@@ -133,4 +133,22 @@ public class SModUIs : SubModBase
         myDogTag.SetActive(true);
         aimPoint.SetActive(false);
     }
+
+    [AttrModEvent("TakeDamage")]
+    public void OnDamageTaken(Param param)
+    {
+        int damage = 0;
+        MonoBehaviour damageTaker;
+        param.Get("damage", out damage);
+        param.Get("damageTaker", out damageTaker);
+        int id = 0;
+
+        if (damageTaker is MSHero) id = (damageTaker as MSHero).id;   
+        else id = (damageTaker as MSOtherPlayer).playerId;
+
+        GameObject hp;
+        hpBars.TryGetValue(id, out hp);
+        var slider = hp.GetComponent<Slider>();
+        slider.value = slider.value - damage;
+    }
 }

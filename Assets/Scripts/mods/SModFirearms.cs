@@ -22,6 +22,7 @@ public class SModFirearms : SubModBase
         if (!fire_start) return false;
         if (magazine_ammo == 0) return false;
         if (Time.time < nextFireTime) return false;
+        nextFireTime = Time.time + 1 / fire_frequency;
         return true;
     }
 

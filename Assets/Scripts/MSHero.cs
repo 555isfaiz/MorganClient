@@ -21,10 +21,7 @@ public class MSHero : MonoBehaviour
         modWeapon.Start();
     }
 
-    void Update()
-    {
-
-    }
+    void Update() {}
 
     void FixedUpdate()
     {

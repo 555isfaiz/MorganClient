@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class MSBullet : MonoBehaviour
 {
-    MonoBehaviour shooter;
+    public MonoBehaviour shooter;
     float defaultSpeed = MSGlobalParams.Rifle_bullet_fly_speed;
+    public int bulletType = 1;
 
     void FixedUpdate()
     {
@@ -18,6 +19,11 @@ public class MSBullet : MonoBehaviour
     void SetSpeed(float speed)
     {
         this.defaultSpeed = speed;
+    }
+
+    void SetBulletType(int type)
+    {
+        this.bulletType = type;
     }
 
     void OnCollisionEnter(Collision collision)
