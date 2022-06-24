@@ -55,13 +55,11 @@ public class ModWeapon : ModBase
 
     public void Zoom()
     {
-        MSMain.modControl.SetCameraZoom(true);
         MSMain.FireEvent("CameraZoom");
     }
 
     public void Unzoom()
     {
-        MSMain.modControl.SetCameraZoom(false);
         MSMain.FireEvent("CameraUnzoom");
     }
 }

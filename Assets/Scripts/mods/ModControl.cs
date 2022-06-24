@@ -338,17 +338,15 @@ public class ModControl : ModBase
 		return rotateAxis;
 	}
 
-    public void SetCameraZoom(bool isZoom)
+    [AttrModEvent("CameraZoom")]
+    public void OnCameraZoom(Param obj)
     {
-        if (!cameraZoom && isZoom)
-        {
-            // topLimit = -topLimit;
-            // bottomLimit = -bottomLimit;
-        }
-        else if (cameraZoom && !isZoom)
-        {
+        cameraZoom = true;
+    }
 
-        }
-        cameraZoom = isZoom;
+    [AttrModEvent("CameraUnzoom")]
+    public void OnCameraUnzoom(Param obj)
+    {
+        cameraZoom = false;
     }
 }
