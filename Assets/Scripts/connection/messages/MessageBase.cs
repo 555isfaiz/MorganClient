@@ -71,6 +71,22 @@ public abstract class MSMessageBase
         {
             return 1005;
         }
+        else if (msg is CSFireStart)
+        {
+            return 3001;
+        }
+        else if (msg is SCFireSync)
+        {
+            return 3002;
+        }
+        else if (msg is CSFireStop)
+        {
+            return 3003;
+        }
+        else if (msg is CSSwitchWeapon)
+        {
+            return 3004;
+        }
 
         return 0;
     }
@@ -142,6 +158,22 @@ public abstract class MSMessageBase
 
             case 1005:
                 msg = new SCGameSync();
+                break;
+
+            case 3001:
+                msg = new CSFireStart();
+                break;
+
+            case 3002:
+                msg = new SCFireSync();
+                break;
+
+            case 3003:
+                msg = new CSFireStop();
+                break;
+
+            case 3004:
+                msg = new CSSwitchWeapon();
                 break;
 
 
