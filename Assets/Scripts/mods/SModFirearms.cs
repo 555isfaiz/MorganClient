@@ -26,8 +26,31 @@ public class SModFirearms : SubModBase
         return true;
     }
 
-    public virtual void StartFire1() {}
-    public virtual void StopFire1() {}
-    public virtual void StartFire2() { ((ModWeapon)GetOwner()).Zoom(); }
-    public virtual void StopFire2() { ((ModWeapon)GetOwner()).Unzoom(); }
+    public void StartFire1() 
+    { 
+        StartFire1Override(); 
+    }
+
+    public virtual void StartFire1Override() {}
+
+    public void StopFire1() 
+    {
+        StopFire1Override();
+    }
+
+    public virtual void StopFire1Override() {}
+
+    public void StartFire2() 
+    {
+        StartFire2Override();
+    }
+
+    public virtual void StartFire2Override() { ((ModWeapon)GetOwner()).Zoom(); }
+
+    public void StopFire2() 
+    { 
+        StopFire2Override(); 
+    }
+
+    public virtual void StopFire2Override() { ((ModWeapon)GetOwner()).Unzoom(); }
 }

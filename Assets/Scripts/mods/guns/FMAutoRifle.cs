@@ -11,12 +11,12 @@ public class FMAutoRifle : SModFirearms
         reload_duration = MSGlobalParams.Rifle_reload_duration;
     }
 
-    public override void StartFire1()
+    public override void StartFire1Override()
     {
         fire_start = true;
     }
 
-    public override void StopFire1()
+    public override void StopFire1Override()
     {
         fire_start = false;
     }
